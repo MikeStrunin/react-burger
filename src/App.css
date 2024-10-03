@@ -11,9 +11,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -22,6 +24,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -39,4 +42,32 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.container {
+  display: flex;
+}
+
+.item {
+  display: flex;
+  flex-basis: 50%;
+}
+
+.error {
+  color: red;
+  font-size: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.error-contents {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  padding: 16px;
+  margin: 20px;
+  background-color: #eee;
+}
+
+.loading {
+  color: blue;
+  font-style: italic;
 }
