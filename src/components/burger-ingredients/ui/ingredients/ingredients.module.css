@@ -1,0 +1,24 @@
+.caption {
+    width: 100%;
+    text-align: start;
+}
+
+.ulContainer {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    row-gap: 32px;
+    width: 100%;
+    column-gap: 2%;
+    /* column-gap: 2%; не понимаю как сделать p6 между колонками при widht=50%*/
+}
+
+.liContainer {
+    /* если выше нет column-gap: - тот тут width надо 50%!! */
+    width: 49%;
+    display: flex;
+    /* Enable flex behavior for children */
+    align-items: center;
+    /* Center content vertically */
+    justify-content: center;
+}
