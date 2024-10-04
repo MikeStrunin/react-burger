@@ -1,0 +1,7 @@
+.priceContainer {
+    display: flex;
+    text-align: center;
+    justify-content: end;
+    align-items: center;
+    /* border: solid yellow; */
+}

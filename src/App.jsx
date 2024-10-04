@@ -9,24 +9,29 @@ const GET_INGREDIENTS_URL = 'https://norma.nomoreparties.space/api/ingredients'
 function App() {
 
   const [ingredients, setIngredients] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsloading] = useState(false);
   const [error, setError] = useState();
 
   useEffect(() => {
-    setLoading(true);
-    setError(false);
+    setIsloading(true);
+    setError(null);
 
     fetch(GET_INGREDIENTS_URL)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("что-то пошло не так");
+        }
+        return res.json()
+      })
       .then(result => {
         if (result.success) {
           setIngredients(result.data)
         }
-        setLoading(false);
+        setIsloading(false);
       })
       .catch(e => {
-        setLoading(false);
-        setError(true);
+        setIsloading(false);
+        setError(e.message);
       });
   }, []);
 
@@ -35,12 +40,11 @@ function App() {
     <>
       <AppHeader />
       <div className="container">
-        {loading ? (
+        {isLoading ? (
           <div className="loading">Поиск...</div>
         ) : error ? (
           <div className="error">
-            Что-то пошло не так:
-            <div className="error-contents">{error.message}</div>
+            Ошибка при выполнении запроса: {error}
           </div>
         ) : ingredients && ingredients.length > 0 ? (
           <>
