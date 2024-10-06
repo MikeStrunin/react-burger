@@ -1,0 +1,18 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: solid red; */
+}
+
+.nav {
+    /* background-color: red; */
+    display: flex;
+    align-items: center;
+}
+
+.a {
+    /* background-color: green; */
+    display: flex;
+    align-items: center;
+}

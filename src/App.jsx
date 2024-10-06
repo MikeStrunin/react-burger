@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useEffect, useState } from "react";
+import { AppHeader } from './components/app-header/app-header';
+import { BurgerConstructor } from './components/burger-constructor/burger-constructor.jsx'
+import { BurgerIngredients } from './components/burger-ingredients/burger-ingredients.jsx'
+//import data from './utils/data.json'
+const GET_INGREDIENTS_URL = 'https://norma.nomoreparties.space/api/ingredients'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [ingredients, setIngredients] = useState(null);
+  const [isLoading, setIsloading] = useState(false);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+    setIsloading(true);
+    setError(null);
+
+    fetch(GET_INGREDIENTS_URL)
+      .then(res => {
+        if (!res.ok) {
+          throw new Error("что-то пошло не так");
+        }
+        return res.json()
+      })
+      .then(result => {
+        if (result.success) {
+          setIngredients(result.data)
+        }
+        setIsloading(false);
+      })
+      .catch(e => {
+        setIsloading(false);
+        setError(e.message);
+      });
+  }, []);
+
 
   return (
     <>
-      <Tab active={true} value={1} onClick={() => {}} />
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <AppHeader />
+      <div className="container">
+        {isLoading ? (
+          <div className="loading">Поиск...</div>
+        ) : error ? (
+          <div className="error">
+            Ошибка при выполнении запроса: {error}
+          </div>
+        ) : ingredients && ingredients.length > 0 ? (
+          <>
+            <div className="item" >
+              <BurgerIngredients ingredients={ingredients} />
+            </div>
+            <div className="item" >
+              <BurgerConstructor ingredients={ingredients} />
+            </div>
+          </>
+        ) : (
+          <p>Нет результатов</p>
+        )}
+      </div >
     </>
   )
 }

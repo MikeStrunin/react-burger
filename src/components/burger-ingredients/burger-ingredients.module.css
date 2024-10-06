@@ -1,0 +1,19 @@
+.caption {
+    width: 100%;
+    text-align: start;
+}
+
+.section {
+    display: flex;
+    flex-wrap: wrap;
+    /* border: solid green; */
+}
+
+.sectionIngredients {
+    display: flex;
+    flex-wrap: wrap;
+    /* тут, наверное, не фиксированное значение */
+    max-height: 65vh;
+    overflow-y: scroll;
+    /* border: solid green; */
+}

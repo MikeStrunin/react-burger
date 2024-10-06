@@ -1,0 +1,31 @@
+.ingredientsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 60vh;
+    /* border: solid red; */
+    /* overflow-y: scroll; */
+}
+
+.constructorContainer {
+    margin: 0;
+    /* To remove default bottom margin */
+    padding-left: 0;
+    /* To remove default left padding */
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: scroll;
+    /* max-height: 65vh; */
+    /* border: solid red; */
+}
+
+.dragContainer {
+    display: flex;
+    align-items: center;
+}
+/*  через выделение на className не работает(, чтоб убрать у 1 и ласт элемента
+.bun {
+    scrollbar-width:0
+} */
