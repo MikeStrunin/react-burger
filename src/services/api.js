@@ -13,20 +13,21 @@ const getResponse = (res) => {
     return Promise.reject(`Ошибка ${res.status}`);
 };
 
-export const getAllIngredientsRequest = async () => {
-    const res = await fetch(`${apiConfig.baseUrl}/ingredients`);
-    return getResponse(res);
-};
+const request = (endpoint, options) => {
+    return fetch(`${apiConfig.baseUrl + endpoint}`, options).then(getResponse)
+}
 
-export const createOrderRequest = async (ingredientsID) => {
-    const res = await fetch(`${apiConfig.baseUrl}/orders`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            'ingredients': ingredientsID,
-        }),
-    });
-    return getResponse(res);
+export const getAllIngredientsRequest = () => request("/ingredients");
+
+export const createOrderRequest = (ingredientsID) => {
+    return request("/orders",
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                'ingredients': ingredientsID,
+            }),
+        });
 }

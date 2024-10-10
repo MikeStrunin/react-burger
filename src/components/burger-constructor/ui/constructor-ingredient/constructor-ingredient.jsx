@@ -11,10 +11,6 @@ import { IngredientItemType } from "../../../../utils/prop-types";
 export const ConstructorIngredient = ({ item, id, index }) => {
     const dispatch = useDispatch();
 
-    const handleDeleteItem = (item) => useCallback(() => {
-        dispatch(deleteItem(item));
-    }, [item]);
-
     const ref = useRef(null)
     const [{ handlerId }, drop] = useDrop({
         accept: DndItemTypes.ItemSwap,
@@ -81,7 +77,7 @@ export const ConstructorIngredient = ({ item, id, index }) => {
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
-                handleClose={() => handleDeleteItem(item)}
+                handleClose={() => dispatch(deleteItem(item))}
             />
         </li>
     )

@@ -1,13 +1,14 @@
-import './App.css'
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppHeader } from './components/app-header/app-header';
-import { BurgerConstructor } from './components/burger-constructor/burger-constructor.jsx'
-import { BurgerIngredients } from './components/burger-ingredients/burger-ingredients.jsx'
+import { AppHeader } from '../app-header/app-header.jsx'
+import { BurgerConstructor } from '..//burger-constructor/burger-constructor.jsx'
+import { BurgerIngredients } from '../burger-ingredients/burger-ingredients.jsx'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { getIngredients } from "./services/actions/ingredients.js"
+import { getIngredients } from '../../services/actions/ingredients.js';
+
+import styles from './app.module.css'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -23,20 +24,20 @@ const App = () => {
   return (
     <>
       <AppHeader />
-      <div className="container">
+      <main className={styles.container}>
         <DndProvider backend={HTML5Backend}>
           {itemsRequest ? (
-            <div className="loading">Поиск...</div>
+            <div className={styles.loading}>Поиск...</div>
           ) : itemsError ? (
-            <div className="error">
+            <div className={styles.error}>
               Ошибка при выполнении запроса: {itemsError}
             </div>
           ) : items && items.length > 0 ? (
             <>
-              <div className="item" >
-                <BurgerIngredients ingredients={items} />
+              <div className={styles.item}>
+                <BurgerIngredients />
               </div>
-              <div className="item" >
+              <div className={styles.item}>
                 <BurgerConstructor />
               </div>
             </>
@@ -44,7 +45,7 @@ const App = () => {
             <p>Нет результатов</p>
           )}
         </DndProvider>
-      </div >
+      </main>
     </>
   )
 }

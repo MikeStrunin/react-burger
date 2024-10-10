@@ -1,4 +1,4 @@
-import { ADD_ITEM_SUCCESS, DELETE_ITEM_SUCCESS, MOVE_ITEM } from "../actions/burger-constructor";
+import { ADD_ITEM_SUCCESS, DELETE_ITEM_SUCCESS, MOVE_ITEM, RESET_ITEMS } from "../actions/burger-constructor";
 
 const initialState = {
     bun: null,
@@ -28,6 +28,13 @@ export const burgerConstructorReducer = (state = initialState, action) => {
                 ...state,
                 ingredients: ingredientsTmp
             };
+        case RESET_ITEMS:
+            return {
+                ...state,
+                bun: null,
+                ingredients: [],
+            }
+
         default:
             return state;
     }

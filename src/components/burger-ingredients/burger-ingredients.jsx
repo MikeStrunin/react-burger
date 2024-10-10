@@ -1,17 +1,16 @@
 import React, { useCallback, useRef, useMemo } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from "prop-types";
 import { Modal } from "../modal/modal.jsx";
 import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
 import { Ingredients } from "./ui/ingredients/ingredients.jsx";
-import { IngredientItemType } from "./../../utils/prop-types";
 import { RESET_CURRENT_INGREDIENT } from "../../services/actions/current-ingredient.js"
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredients.module.css'
 
-const BurgerIngredients = ({ ingredients }) => {
+const BurgerIngredients = () => {
     const dispatch = useDispatch();
+    const ingredients = useSelector(store => store.ingredients.items);
     const currentIngredient = useSelector((store) => store.currentIngredient.ingredient);
     const [currentTab, setCurrentTab] = React.useState('bun');
     const scrollTitleRef = useRef(null);
@@ -70,10 +69,6 @@ const BurgerIngredients = ({ ingredients }) => {
             </section>
         </>
     )
-}
-
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(IngredientItemType.isRequired).isRequired
 }
 
 export { BurgerIngredients };

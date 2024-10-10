@@ -40,7 +40,7 @@ export const Ingredient = ({ item }) => {
             className={`${styles.container} ${isDragging && styles.onDrag}`}
             onClick={(e) => setCurrentIngredient(item)}>
             <div className={`${styles.infoContainer} ml-4 mr-4`}>
-                <img className={styles.image} src={item.image} />
+                <img className={styles.image} src={item.image} alt={`Ингредиент ${item.name?.length > 0 ? item.name : ""}`} />
                 <div className={`${styles.price} mt-1 mb-1`}>
                     <span className="mr-2 text text_type_digits-small">{item.price}</span>
                     <CurrencyIcon type="primary"> </CurrencyIcon>
