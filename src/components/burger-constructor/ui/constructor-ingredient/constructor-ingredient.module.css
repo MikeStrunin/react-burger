@@ -1,0 +1,8 @@
+.dragContainer {
+    display: flex;
+    align-items: center;
+}
+
+.onDrag {
+    opacity: 0.4;
+}
