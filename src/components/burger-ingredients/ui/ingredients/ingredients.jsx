@@ -22,5 +22,10 @@ export const Ingredients = ({ ingredients, caption, refValue }) => {
 Ingredients.propTypes = {
     ingredients: PropTypes.arrayOf(IngredientItemType.isRequired).isRequired,
     caption: PropTypes.string,
-    refValue: PropTypes.func.isRequired,
+    refValue: PropTypes.oneOfType([
+        // Either a function
+        PropTypes.func,
+        // Or the instance of a DOM native element (see the note about SSR)
+        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
+    ]).isRequired,
 }

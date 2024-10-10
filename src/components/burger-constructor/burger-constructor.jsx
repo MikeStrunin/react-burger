@@ -12,9 +12,9 @@ const BurgerConstructor = () => {
     const dispatch = useDispatch();
     const { order, orderRequest, orderError } = useSelector((store) => store.order);
 
-    const onCloseModal = useSelector(() => {
+    const onCloseModal = () => {
         dispatch({ type: RESET_ORDER });
-    }, [])
+    }
 
     return (
         <>
