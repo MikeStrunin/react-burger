@@ -1,54 +1,73 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientItemType } from "../../../../utils/prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { addItem } from "../../../../services/actions/burger-constructor";
+import { DndItemTypes } from "../../../../utils/DndItemTypes"
+import { ConstructorIngredient } from "../constructor-ingredient/constructor-ingredient";
 import styles from './ingredients-constructor.module.css'
 
-export const IngredientsConstructor = ({ bun, ingredients }) => {
+export const IngredientsConstructor = () => {
+    const dispatch = useDispatch();
+    const { bun, ingredients } = useSelector(state => state.burgerConstructor);
+
+    const [{ canDropIngr, canDropBun, isOverIngr, isOverBun }, drop] = useDrop(() => ({
+        accept: DndItemTypes.ItemDragDrop,
+        drop: (item) => (dispatch(addItem(item))),
+        collect: (monitor) => ({
+            canDropIngr: monitor.getItem()?.type !== "bun" && monitor.canDrop(),
+            canDropBun: monitor.getItem()?.type === "bun" && monitor.canDrop(),
+
+            isOverIngr: monitor.getItem()?.type !== "bun" && monitor.isOver(),
+            isOverBun: monitor.getItem()?.type === "bun" && monitor.isOver(),
+        }),
+    }))
+
     return (
-        <div className={`${styles.ingredientsContainer} ml-10`}>
-            {bun &&
+        <div ref={drop} className={`${styles.ingredientsContainer} ml-10`}>
+            {bun ?
                 (<div className={`${styles.bun} mr-10 ml-8`}>
                     <ConstructorElement
                         type="top"
-                        key={bun._id}
+                        key={bun.key}
                         isLocked={true}
                         text={bun.name}
                         price={bun.price}
                         thumbnail={bun.image}
                     />
                 </div>)
+                :
+                (<div className={`${styles.emptybuntop} ${canDropBun && styles.canDrop} ${isOverBun && styles.isOver}`}>
+                    <p>Выберите булку</p>
+                </div>)
             }
-            {ingredients && ingredients.length > 0 &&
+            {ingredients && ingredients.length > 0 ?
                 (<ul className={`${styles.constructorContainer} pr-5`}>
                     {ingredients.map((item, index) => (
-                        <li className={styles.dragContainer} key={item._id} >
-                            <DragIcon className='pr-2' type="primary" />
-                            <ConstructorElement
-                                text={item.name}
-                                price={item.price}
-                                thumbnail={item.image}
-                            />
-                        </li>
+                        <ConstructorIngredient item={item} id={item.key} index={index} key={item.key} />
                     ))}
                 </ul>)
+                :
+                (<div className={`${styles.emptyitem} ${canDropIngr && styles.canDrop} ${isOverIngr && styles.isOver}`}>
+                    <p>Выберите начинку</p>
+                </div>)
             }
-            {bun &&
+            {bun ?
                 (<div className={`${styles.bun} mr-10 ml-8`}>
                     <ConstructorElement
-                        key={bun._id}
+                        key={bun.key}
                         type="bottom"
                         isLocked={true}
                         text={bun.name}
                         price={bun.price}
                         thumbnail={bun.image}
                     />
-                </div>)}
+                </div>)
+                :
+                (<div className={`${styles.emptybunbottom} ${canDropBun && styles.canDrop} ${isOverBun && styles.isOver}`}>
+                    <p>Выберите булку</p>
+                </div>)
+            }
         </div>
     )
-}
-
-IngredientsConstructor.propTypes = {
-    bun: IngredientItemType.isRequired,
-    ingredients: PropTypes.arrayOf(IngredientItemType).isRequired,
 }

@@ -5,3 +5,10 @@
     align-items: center;
     justify-content: center;
 }
+
+.containerEmpty {
+    display: flex;
+    padding: 10em;
+    align-items: center;
+    justify-content: center;
+}

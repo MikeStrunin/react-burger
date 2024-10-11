@@ -3,7 +3,7 @@
     flex-direction: column;
     gap: 10px;
     max-height: 60vh;
-    /* border: solid red; */
+    /* border: solid red;  */
     /* overflow-y: scroll; */
 }
 
@@ -21,11 +21,32 @@
     /* border: solid red; */
 }
 
-.dragContainer {
-    display: flex;
-    align-items: center;
+.emptybuntop {
+    background-color: #2f2f37;
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
-/*  через выделение на className не работает(, чтоб убрать у 1 и ласт элемента
-.bun {
-    scrollbar-width:0
-} */
+
+.emptybunbottom {
+    background-color: #2f2f37;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.emptyitem {
+    background-color: #2f2f37;
+    border-radius: 30px;
+}
+
+.canDrop {
+    opacity: 0.5;
+    border: 2px dashed cornflowerblue
+}
+
+.isOver {
+    border: 2px dashed rgb(59, 231, 202)
+}
