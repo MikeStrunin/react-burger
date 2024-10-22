@@ -2,11 +2,6 @@
   display: flex;
 }
 
-.item {
-  display: flex;
-  flex-basis: 50%;
-}
-
 .error {
   color: red;
   font-size: 80%;
