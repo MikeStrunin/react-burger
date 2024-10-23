@@ -8,11 +8,13 @@ import { BurgerConstructor } from '../../components/burger-constructor/burger-co
 export const HomePage = () => {
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className={styles.item}>
-                <BurgerIngredients />
-            </div>
-            <div className={styles.item}>
-                <BurgerConstructor />
+            <div className={styles.container}>
+                <div className={styles.item}>
+                    <BurgerIngredients />
+                </div>
+                <div className={styles.item}>
+                    <BurgerConstructor />
+                </div>
             </div>
         </DndProvider>
     )
