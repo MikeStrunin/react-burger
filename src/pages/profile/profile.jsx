@@ -26,7 +26,7 @@ export const Profile = () => {
                     <NavLink
                         to='/profile'
                         className={`text text_type_main-medium text_color_inactive `}
-                        style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : undefined)}
+                        style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : null)}
                         end
                     >
                         Профиль
@@ -34,7 +34,7 @@ export const Profile = () => {
                     <NavLink
                         to='order-page'
                         className={`text text_type_main-medium text_color_inactive `}
-                        style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : undefined)}
+                        style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : null)}
                         state={{ order: true }}
                         end
                     >
