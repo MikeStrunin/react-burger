@@ -1,12 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './register.module.css';
-//import { useAuth } from '../services/auth';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { register as registerApi } from '../../services/api';
 
 export const Register = () => {
-    // let auth = useAuth();
-
     const [form, setValue] = useState({ name: '', email: '', password: '' });
     const [isHideMode, setHideMode] = useState(true);
     const inputRef = React.useRef(null)
@@ -18,13 +16,15 @@ export const Register = () => {
         setTimeout(() => inputRef.current.focus(), 0)
         setHideMode(!isHideMode);
     }
-    const register = () => {
-        // TODO: 
-    }
+    const formSubmit = (e) => {
+        e.preventDefault();
+        registerApi(form)
+    };
+
     return (
         <div className={styles.container}>
             <p className="text text_type_main-medium">Регистрация</p>
-            <form>
+            <form onSubmit={formSubmit}>
                 <Input
                     type={'text'}
                     placeholder={'Имя'}
@@ -68,7 +68,7 @@ export const Register = () => {
                     extraClass="mt-6"
                 />
                 <div className={`mt-6 mb-20`}>
-                    <Button htmlType="button" type="primary" size="large" onClick={register}>
+                    <Button htmlType="submit" type="primary" size="large">
                         Зарегистрироваться
                     </Button>
                 </div>

@@ -1,12 +1,11 @@
-import React, { useCallback, useState } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styles from './login.module.css';
-//import { useAuth } from '../services/auth';
+import { useDispatch } from "react-redux";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-
+import { login } from '../../services/actions/user';
 export const Login = () => {
-    // let auth = useAuth();
-
+    const dispatch = useDispatch();
     const [form, setValue] = useState({ email: '', password: '' });
     const [isHideMode, setHideMode] = useState(true);
     const inputRef = React.useRef(null)
@@ -19,23 +18,15 @@ export const Login = () => {
         setHideMode(!isHideMode);
     }
 
-    let login = () => { }
-    // useCallback(
-    //     e => {
-    //         e.preventDefault();
-    //         auth.signIn(form);
-    //     },
-    //     [auth, form]
-    // );
-
-    // if (auth.user) {
-    //     return (<Navigate to={'/'} />);
-    // }
+    const formSubmit = (e) => {
+        e.preventDefault();
+        dispatch(login(form));
+    };
 
     return (
         <div className={styles.container}>
             <p className="text text_type_main-medium">Вход</p>
-            <form>
+            <form onSubmit={formSubmit}>
                 <Input
                     type={'email'}
                     placeholder={'E-mail'}
@@ -65,7 +56,7 @@ export const Login = () => {
                     extraClass="mt-6"
                 />
                 <div className={`mt-6 mb-20`}>
-                    <Button htmlType="button" type="primary" size="large" onClick={login}>
+                    <Button htmlType="submit" type="primary" size="large">
                         Войти
                     </Button>
                 </div>

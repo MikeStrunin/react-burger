@@ -1,30 +1,63 @@
-const apiConfig = {
-    baseUrl: "https://norma.nomoreparties.space/api",
-    // headers: {
-    //   Authorization: "Bearer bearererer",
-    //   "Content-Type": "application/json",
-    // },
+const BURGER_API_URL = "https://norma.nomoreparties.space/api"
+
+const checkReponse = (res) => {
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));  // ранее- return Promise.reject(`Ошибка ${res.status}`);
 };
 
-const getResponse = (res) => {
-    if (res.ok) {
-        return res.json();
-    }
-    return Promise.reject(`Ошибка ${res.status}`);
-};
-
-const request = (endpoint, options) => {
-    return fetch(`${apiConfig.baseUrl + endpoint}`, options).then(getResponse)
+const fetchNoRefresh = (endpoint, options) => {
+    return fetch(`${BURGER_API_URL + endpoint}`, options).then(checkReponse)
 }
 
-export const getAllIngredientsRequest = () => request("/ingredients");
+export const getAllIngredientsRequest = () => fetchNoRefresh("/ingredients");
+
+export const refreshToken = () => {
+    return fetch(`${BURGER_API_URL}/auth/token`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8",
+        },
+        body: JSON.stringify({
+            token: localStorage.getItem("refreshToken"),
+        }),
+    })
+        .then(checkReponse)
+        // !! Важно для обновления токена в мидлваре, чтобы запись была тут, а не в fetchWithRefresh
+        .then((refreshData) => {
+            if (!refreshData.success) {
+                return Promise.reject(refreshData);
+            }
+            localStorage.setItem("refreshToken", refreshData.refreshToken);
+            localStorage.setItem("accessToken", refreshData.accessToken);
+            return refreshData;
+        });
+};
+
+const fetchWithRefresh = async (endpoint, options) => {
+    const url = `${BURGER_API_URL + endpoint}`;
+    try {
+        const res = await fetch(url, options);
+        return await checkReponse(res);
+    } catch (err) {
+        if (err.message === "jwt expired") {
+            const refreshData = await refreshToken(); //обновляем токен
+            options.headers.authorization = refreshData.accessToken;
+            const res = await fetch(url, options); //повторяем запрос
+            return await checkReponse(res);
+        } else {
+            return Promise.reject(err);
+        }
+    }
+};
+
+export const getAllIngredientsfetchNoRefresh = () => fetchNoRefresh("/ingredients");
 
 export const createOrderRequest = (ingredientsID) => {
-    return request("/orders",
+    return fetchWithRefresh("/orders",
         {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: localStorage.getItem("accessToken")
             },
             body: JSON.stringify({
                 'ingredients': ingredientsID,
@@ -32,9 +65,8 @@ export const createOrderRequest = (ingredientsID) => {
         });
 }
 
-
-export const passwordReset = (email) => {
-    return request("/password-reset",
+export const passwordReset = ({ email }) => { // non-store request
+    return fetchNoRefresh("/password-reset",
         {
             method: 'POST',
             headers: {
@@ -46,8 +78,8 @@ export const passwordReset = (email) => {
         });
 }
 
-export const passwordResetReset = (password) => {
-    return request("/password-reset/reset",
+export const passwordResetReset = ({ password, code }) => { // non-store request
+    return fetchNoRefresh("/password-reset/reset",
         {
             method: 'POST',
             headers: {
@@ -55,13 +87,13 @@ export const passwordResetReset = (password) => {
             },
             body: JSON.stringify({
                 "password": password,
-                "token": ""//TODO:
+                "token": code // code from email
             }),
         });
 }
 
 export const register = ({ email, password, name }) => {
-    return request("/auth/register",
+    return fetchNoRefresh("/auth/register",
         {
             method: 'POST',
             headers: {
@@ -76,7 +108,7 @@ export const register = ({ email, password, name }) => {
 }
 
 export const login = ({ email, password }) => {
-    return request("/auth/login",
+    return fetchNoRefresh("/auth/login",
         {
             method: 'POST',
             headers: {
@@ -89,26 +121,26 @@ export const login = ({ email, password }) => {
         });
 }
 
-export const token = (refreshToken) => {
-    return request("/auth/token",
+export const logout = () => {
+    return fetchNoRefresh("/auth/logout",
         {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "token": refreshToken,
+                token: localStorage.getItem("refreshToken"),
             }),
         });
 }
 
-//TODO: передать серверу токен из куков в поле authorization.
 export const getUser = () => {
-    return request("/auth/user",
+    return fetchWithRefresh("/auth/user",
         {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: localStorage.getItem("accessToken")
             },
             // body: JSON.stringify({
             //     "token": refreshToken,
@@ -116,16 +148,15 @@ export const getUser = () => {
         });
 }
 
-//TODO: передать серверу токен из куков в поле authorization.
-export const updateUser = () => {
-    return request("/auth/user",
+export const updateUser = (user) => {
+    console.log("USER="+JSON.stringify(user));
+    return fetchWithRefresh("/auth/user",
         {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: localStorage.getItem("accessToken")
             },
-            // body: JSON.stringify({
-            //     "token": refreshToken,
-            // }),
+            body: JSON.stringify(user)
         });
 }

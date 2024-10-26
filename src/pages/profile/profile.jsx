@@ -1,24 +1,11 @@
-import React, { useCallback, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React from 'react';
+import { useDispatch } from "react-redux";
+import { NavLink, Outlet } from 'react-router-dom';
 import styles from './profile.module.css';
-//import { useAuth } from '../services/auth';
-import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import { logout } from '../../services/actions/user';
 
 export const Profile = () => {
-    // let auth = useAuth();
-
-    const [form, setValue] = useState({ name: '', email: '', password: '' });
-    const [isHideMode, setHideMode] = useState(true);
-    const inputRef = React.useRef(null)
-
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
-    const onHideShowIconClick = e => {
-        setTimeout(() => inputRef.current.focus(), 0)
-        setHideMode(!isHideMode);
-    }
-
+    const dispatch = useDispatch();
     return (
         <div className={styles.container}>
             <div className={styles.item}>
@@ -32,7 +19,7 @@ export const Profile = () => {
                         Профиль
                     </NavLink>
                     <NavLink
-                        to='order-page'
+                        to='orders'
                         className={`text text_type_main-medium text_color_inactive `}
                         style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : null)}
                         state={{ order: true }}
@@ -41,7 +28,7 @@ export const Profile = () => {
                         История заказов
                     </NavLink>
                     <NavLink
-                        //onClick={() => dispatch(logoutUser(() => navigate('/login')))}
+                        onClick={() => dispatch(logout())}
                         className={`text text_type_main-medium text_color_inactive`}
                     >
                         Выход
@@ -49,50 +36,7 @@ export const Profile = () => {
                 </nav>
                 <p className={`${styles.infoText} text text_type_main-small text_color_inactive mt-20`}>В этом разделе вы можете изменить свои персональные данные</p>
             </div>
-            <form className={styles.item}>
-                <Input
-                    type={'text'}
-                    placeholder={'Имя'}
-                    onChange={onChange}
-                    icon={'EditIcon'}
-                    value={form.name}
-                    name={'name'}
-                    error={false}
-                    //ref={inputRef}
-                    //onIconClick={onIconClick}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                //extraClass="mt-6"
-                />
-                <Input
-                    type={'email'}
-                    placeholder={'Логин'}
-                    onChange={onChange}
-                    icon={'EditIcon'}
-                    value={form.email}
-                    name={'email'}
-                    error={false}
-                    //ref={inputRef}
-                    //onIconClick={onIconClick}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                    extraClass="mt-6"
-                />
-                <Input
-                    type={isHideMode ? 'password' : 'text'}
-                    placeholder={'Пароль'}
-                    onChange={onChange}
-                    icon={isHideMode ? 'ShowIcon' : 'HideIcon'}
-                    value={form.password}
-                    name={'password'}
-                    error={false}
-                    ref={inputRef}
-                    onIconClick={onHideShowIconClick}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                    extraClass="mt-6"
-                />
-            </form>
+            <Outlet />
         </div>
     );
 }

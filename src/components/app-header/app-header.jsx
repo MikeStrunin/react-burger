@@ -1,8 +1,11 @@
 import { NavLink } from 'react-router-dom';
+import { useSelector } from "react-redux";
 import { BurgerIcon, ProfileIcon, ListIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css'
 
 const AppHeader = () => {
+    const user = useSelector((store) => store.user.user);
+
     const getButtonType = (isRouteActive) => isRouteActive ? "primary" : "secondary"
     const getTextType = (isRouteActive) => isRouteActive ? null : "text_color_inactive"
     const linkActiveColor = { color: "#f2f2f3" };
@@ -48,7 +51,7 @@ const AppHeader = () => {
                     {({ isActive }) =>
                         <div className={`${styles.linkContainer} pl-5 pr-5`}>
                             <ProfileIcon type={getButtonType(isActive)} />
-                            <span className={`${getTextType(isActive)} pl-2 text text_type_main-default`}>Личный кабинет</span>
+                            <span className={`${getTextType(isActive)} pl-2 text text_type_main-default`}>{user ? user.name : "Личный кабинет"}</span>
                         </div>
                     }
                 </NavLink>

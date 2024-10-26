@@ -1,0 +1,10 @@
+.item {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.buttons {
+    display: flex;
+    justify-content: end;
+}
