@@ -3,23 +3,22 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './reset-password.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { passwordResetReset } from '../../services/api';
+import { useForm } from '../../utils/useForm';
 
 export const ResetPassword = () => {
-    const [form, setValue] = useState({ code: '', password: '' });
+    const [formData, onChange] = useForm({ code: '', password: '' })
     const [isErrorRequest, setIsErrorRequest] = useState(null);
     const [isHideMode, setHideMode] = useState(true);
     const inputRef = React.useRef(null)
     const navigate = useNavigate();
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
+
     const onHideShowIconClick = e => {
         setTimeout(() => inputRef.current.focus(), 0)
         setHideMode(!isHideMode);
     }
     const formSubmit = (e) => {
         e.preventDefault();
-        passwordResetReset(form)
+        passwordResetReset(formData)
             .then(() => {
                 localStorage.removeItem("resetPassword")
                 navigate('/login')
@@ -40,7 +39,7 @@ export const ResetPassword = () => {
                     placeholder={'Введите новый пароль'}
                     onChange={onChange}
                     icon={isHideMode ? 'ShowIcon' : 'HideIcon'}
-                    value={form.password}
+                    value={formData.password}
                     name={'password'}
                     error={false}
                     ref={inputRef}
@@ -54,7 +53,7 @@ export const ResetPassword = () => {
                     placeholder={'Введите код из письма'}
                     onChange={onChange}
                     //icon={'CurrencyIcon'}
-                    value={form.code}
+                    value={formData.code}
                     name={'code'}
                     error={false}
                     //ref={inputRef}

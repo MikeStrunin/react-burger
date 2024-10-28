@@ -3,22 +3,20 @@ import { Link } from 'react-router-dom';
 import styles from './register.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register as registerApi } from '../../services/api';
+import { useForm } from '../../utils/useForm';
 
 export const Register = () => {
-    const [form, setValue] = useState({ name: '', email: '', password: '' });
+    const [formData, onChange] = useForm({ name: '', email: '', password: '' })
     const [isHideMode, setHideMode] = useState(true);
     const inputRef = React.useRef(null)
 
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
     const onHideShowIconClick = e => {
         setTimeout(() => inputRef.current.focus(), 0)
         setHideMode(!isHideMode);
     }
     const formSubmit = (e) => {
         e.preventDefault();
-        registerApi(form)
+        registerApi(formData)
     };
 
     return (
@@ -30,7 +28,7 @@ export const Register = () => {
                     placeholder={'Имя'}
                     onChange={onChange}
                     //icon={'CurrencyIcon'}
-                    value={form.name}
+                    value={formData.name}
                     name={'name'}
                     error={false}
                     //ref={inputRef}
@@ -44,7 +42,7 @@ export const Register = () => {
                     placeholder={'E-mail'}
                     onChange={onChange}
                     //icon={'CurrencyIcon'}
-                    value={form.email}
+                    value={formData.email}
                     name={'email'}
                     error={false}
                     //ref={inputRef}
@@ -58,7 +56,7 @@ export const Register = () => {
                     placeholder={'Пароль'}
                     onChange={onChange}
                     icon={isHideMode ? 'ShowIcon' : 'HideIcon'}
-                    value={form.password}
+                    value={formData.password}
                     name={'password'}
                     error={false}
                     ref={inputRef}

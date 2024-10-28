@@ -4,7 +4,6 @@ import styles from './profile-details.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from '../../services/actions/user';
 
-
 export const ProfileDetails = () => {
     const dispatch = useDispatch();
     const user = useSelector((store) => store.user.user);
@@ -71,8 +70,7 @@ export const ProfileDetails = () => {
                 size={'default'}
                 extraClass="mt-6"
             />
-            {/* (user.name !== form.name || user.email !== form.email || form.password !== null */}
-            {JSON.stringify(user) !== JSON.stringify(form) // сравнение
+           {JSON.stringify(user) !== JSON.stringify(form) // сравнение
                 ? (
                     <div className={`${styles.buttons} mt-6 mb-20`}>
                         <Button htmlType="button" type="secondary" size="large" onClick={onCancelButtonClick}>

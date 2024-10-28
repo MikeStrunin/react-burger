@@ -3,19 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import styles from './forgot-password.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { passwordReset } from '../../services/api';
+import { useForm } from '../../utils/useForm';
 
 export const ForgotPassword = () => {
-    const [form, setValue] = useState({ email: '' });
+    const [formData, onChange] = useForm({ email: "" })
     const [isErrorRequest, setIsErrorRequest] = useState(null);
     const navigate = useNavigate();
 
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
-
     const formSubmit = (e) => {
         e.preventDefault();
-        passwordReset(form)
+        passwordReset(formData)
             .then(() => {
                 localStorage.setItem("resetPassword", true);
                 navigate('/reset-password')
@@ -32,7 +29,7 @@ export const ForgotPassword = () => {
                     placeholder={'Укажите e-mail'}
                     onChange={onChange}
                     //icon={'CurrencyIcon'}
-                    value={form.email}
+                    value={formData.email}
                     name={'email'}
                     error={false}
                     //ref={inputRef}

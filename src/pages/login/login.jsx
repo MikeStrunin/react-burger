@@ -4,15 +4,15 @@ import styles from './login.module.css';
 import { useDispatch } from "react-redux";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login } from '../../services/actions/user';
+import { useForm } from '../../utils/useForm';
+
 export const Login = () => {
     const dispatch = useDispatch();
-    const [form, setValue] = useState({ email: '', password: '' });
+    const [formData, onChange] = useForm({ email: '', password: '' })
+
     const [isHideMode, setHideMode] = useState(true);
     const inputRef = React.useRef(null)
 
-    const onChange = e => {
-        setValue({ ...form, [e.target.name]: e.target.value });
-    };
     const onHideShowIconClick = e => {
         setTimeout(() => inputRef.current.focus(), 0)
         setHideMode(!isHideMode);
@@ -20,7 +20,7 @@ export const Login = () => {
 
     const formSubmit = (e) => {
         e.preventDefault();
-        dispatch(login(form));
+        dispatch(login(formData));
     };
 
     return (
@@ -32,7 +32,7 @@ export const Login = () => {
                     placeholder={'E-mail'}
                     onChange={onChange}
                     //icon={'CurrencyIcon'}
-                    value={form.email}
+                    value={formData.email}
                     name={'email'}
                     error={false}
                     //ref={inputRef}
@@ -46,7 +46,7 @@ export const Login = () => {
                     placeholder={'Пароль'}
                     onChange={onChange}
                     icon={isHideMode ? 'ShowIcon' : 'HideIcon'}
-                    value={form.password}
+                    value={formData.password}
                     name={'password'}
                     error={false}
                     ref={inputRef}

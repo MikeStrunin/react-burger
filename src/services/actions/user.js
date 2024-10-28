@@ -27,10 +27,8 @@ export const getUser = () => {
 };
 
 export const updateUser = (payload) => {
-    console.log("payload=" + payload.name)
     return (dispatch) => {
         return updateUserApi(payload).then((res) => {
-            console.log("res.user.name=" + res.user.name)
             dispatch(setUser(res.user));
         });
     };

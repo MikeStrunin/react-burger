@@ -149,7 +149,6 @@ export const getUser = () => {
 }
 
 export const updateUser = (user) => {
-    console.log("USER="+JSON.stringify(user));
     return fetchWithRefresh("/auth/user",
         {
             method: 'PATCH',
