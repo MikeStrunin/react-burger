@@ -1,17 +1,12 @@
-import React, { useCallback, useRef, useMemo } from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { Modal } from "../modal/modal.jsx";
-import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
+import React, { useRef, useMemo } from "react";
+import { useSelector } from 'react-redux';
 import { Ingredients } from "./ui/ingredients/ingredients.jsx";
-import { RESET_CURRENT_INGREDIENT } from "../../services/actions/current-ingredient.js"
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredients.module.css'
 
 const BurgerIngredients = () => {
-    const dispatch = useDispatch();
     const ingredients = useSelector(store => store.ingredients.items);
-    const currentIngredient = useSelector((store) => store.currentIngredient.ingredient);
     const [currentTab, setCurrentTab] = React.useState('bun');
     const scrollTitleRef = useRef(null);
     const bunsRef = useRef(null);
@@ -21,9 +16,6 @@ const BurgerIngredients = () => {
     const bunsIngredients = useMemo(() => ingredients.filter(i => i.type === 'bun'), ingredients);
     const saucesIngredients = useMemo(() => ingredients.filter(i => i.type === 'sauce'), ingredients);
     const mainIngredients = useMemo(() => ingredients.filter(i => i.type === 'main'), ingredients);
-    const onCloseModal = useCallback(() => {
-        dispatch({ type: RESET_CURRENT_INGREDIENT });
-    }, []);
 
     const handleScroll = (e) => {
         // попытки сделать так не увенчались успехом, проблема в вёрстке наверное мешает :
@@ -43,11 +35,6 @@ const BurgerIngredients = () => {
     }
     return (
         <>
-            {currentIngredient && (
-                <Modal title={"Детали ингредиента"} onClose={() => onCloseModal()}>
-                    <IngredientDetails />
-                </Modal>
-            )}
             <section className={styles.section}>
                 <h1 className={`${styles.caption} pt-10 pb-5 text text_type_main-large main`}>Соберите бургер</h1>
                 <div className={styles.tabs}>

@@ -11,8 +11,14 @@
     align-items: center;
 }
 
-.a {
+.linkContainer {
     /* background-color: green; */
     display: flex;
     align-items: center;
+}
+
+/* unused*/
+.activeNav {
+    color: "#f2f2f3";
+    background-color: rgb(91, 114, 91);
 }

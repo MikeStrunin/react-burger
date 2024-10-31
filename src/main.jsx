@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { compose, createStore, applyMiddleware } from 'redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { rootReducer } from './services/reducers';
 import { thunk } from 'redux-thunk';
@@ -21,8 +22,10 @@ const store = createStore(rootReducer, enhancer);
 const root = createRoot(document.querySelector('#root'));
 root.render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <Router>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Router>
   </StrictMode>
 )

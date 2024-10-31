@@ -2,7 +2,8 @@ import {
     CREATE_ORDER_REQUEST,
     CREATE_ORDER_SUCCESS,
     CREATE_ORDER_ERROR,
-    RESET_ORDER
+    RESET_ORDER,
+    RESET_ORDER_ERROR
 } from '../actions/order-details.js';
 
 const initialState = {
@@ -27,6 +28,8 @@ export function orderReducer(state = initialState, action) {
             return { ...state, orderRequest: false, orderError: action.errorText };
         case RESET_ORDER:
             return { ...state, order: null }
+        case RESET_ORDER_ERROR:
+            return { ...state, orderError: null }
         default:
             return state;
     }
