@@ -61,4 +61,4 @@ export type TUserPasswordResetResetData = Required<Pick<TUserData, "password">> 
 
 export type TUserRegisterData = Required<TUserData>
 
-export type TUserLoginData = Pick<TUserData, "email" | "password">
+export type TUserLoginData = Required<Pick<TUserData, "email" | "password">>
