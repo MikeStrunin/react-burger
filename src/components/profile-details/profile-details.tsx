@@ -1,28 +1,38 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import styles from './profile-details.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from '../../services/actions/user';
 
-export const ProfileDetails = () => {
-    const dispatch = useDispatch();
-    const user = useSelector((store) => store.user.user);
-    const [form, setValue] = useState(user); // user Or { ...user, password: "" }
-    const [isHideMode, setHideMode] = useState(true);
-    const inputRef = React.useRef(null)
+type TFormData = {
+    name: string;
+    email: string;
+    password: string;
+};
 
-    const onChange = e => {
+export const ProfileDetails = (): React.JSX.Element => {
+    const dispatch = useDispatch(); // @ts-ignore.
+    const user = useSelector((store) => store.user.user);
+    const [form, setValue] = useState<TFormData>(user); // user Or { ...user, password: "" }
+    const [isHideMode, setHideMode] = useState<boolean>(true);
+    const inputRef = React.useRef<HTMLInputElement>(null)
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue({ ...form, [e.target.name]: e.target.value });
     };
-    const onHideShowIconClick = e => {
-        setTimeout(() => inputRef.current.focus(), 0)
+    const onHideShowIconClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        }, 0)
         setHideMode(!isHideMode);
     }
-    const formSubmit = (e) => {
-        e.preventDefault();
+    const formSubmit = (e: FormEvent) => {
+        e.preventDefault();// @ts-ignore.
         dispatch(updateUser(form));
     };
-    const onCancelButtonClick = e => {
+    const onCancelButtonClick = () => {
         setValue(user);
     }
 
@@ -70,7 +80,7 @@ export const ProfileDetails = () => {
                 size={'default'}
                 extraClass="mt-6"
             />
-           {JSON.stringify(user) !== JSON.stringify(form) // сравнение
+            {JSON.stringify(user) !== JSON.stringify(form) // сравнение
                 ? (
                     <div className={`${styles.buttons} mt-6 mb-20`}>
                         <Button htmlType="button" type="secondary" size="large" onClick={onCancelButtonClick}>

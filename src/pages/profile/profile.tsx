@@ -4,7 +4,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import styles from './profile.module.css';
 import { logout } from '../../services/actions/user';
 
-export const Profile = () => {
+export const Profile = (): React.JSX.Element => {
     const dispatch = useDispatch();
     return (
         <div className={styles.container}>
@@ -13,7 +13,7 @@ export const Profile = () => {
                     <NavLink
                         to='/profile'
                         className={`text text_type_main-medium text_color_inactive `}
-                        style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : null)}
+                        style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : undefined)}
                         end
                     >
                         Профиль
@@ -21,13 +21,14 @@ export const Profile = () => {
                     <NavLink
                         to='orders'
                         className={`text text_type_main-medium text_color_inactive `}
-                        style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : null)}
+                        style={({ isActive }) => (isActive ? { color: "#f2f2f3" } : undefined)}
                         state={{ order: true }}
                         end
                     >
                         История заказов
                     </NavLink>
                     <NavLink
+                        to="#" // @ts-ignore.
                         onClick={() => dispatch(logout())}
                         className={`text text_type_main-medium text_color_inactive`}
                     >

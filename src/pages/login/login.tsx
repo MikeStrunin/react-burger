@@ -1,42 +1,41 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
-import styles from './register.module.css';
+import styles from './login.module.css';
+import { useDispatch } from "react-redux";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
-import { register as registerApi } from '../../services/api';
+import { login } from '../../services/actions/user';
 import { useForm } from '../../utils/useForm';
 
-export const Register = () => {
-    const [formData, onChange] = useForm({ name: '', email: '', password: '' })
-    const [isHideMode, setHideMode] = useState(true);
-    const inputRef = React.useRef(null)
+type TFormData = {
+    email: string;
+    password: string;
+};
 
-    const onHideShowIconClick = e => {
-        setTimeout(() => inputRef.current.focus(), 0)
+export const Login = (): React.JSX.Element => {
+    const dispatch = useDispatch();
+    const [formData, onChange] = useForm<TFormData>({ email: '', password: '' })
+
+    const [isHideMode, setHideMode] = useState<boolean>(true);
+    const inputRef = React.useRef<HTMLInputElement | null>(null)
+
+    const onHideShowIconClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        }, 0)
         setHideMode(!isHideMode);
     }
-    const formSubmit = (e) => {
-        e.preventDefault();
-        registerApi(formData)
+
+    const formSubmit = (e: FormEvent) => {
+        e.preventDefault();// @ts-ignore.
+        dispatch(login(formData));
     };
 
     return (
         <div className={styles.container}>
-            <p className="text text_type_main-medium">Регистрация</p>
+            <p className="text text_type_main-medium">Вход</p>
             <form onSubmit={formSubmit}>
-                <Input
-                    type={'text'}
-                    placeholder={'Имя'}
-                    onChange={onChange}
-                    //icon={'CurrencyIcon'}
-                    value={formData.name}
-                    name={'name'}
-                    error={false}
-                    //ref={inputRef}
-                    //onIconClick={onIconClick}
-                    errorText={'Ошибка'}
-                    size={'default'}
-                    extraClass="mt-6"
-                />
                 <Input
                     type={'email'}
                     placeholder={'E-mail'}
@@ -67,11 +66,12 @@ export const Register = () => {
                 />
                 <div className={`mt-6 mb-20`}>
                     <Button htmlType="submit" type="primary" size="large">
-                        Зарегистрироваться
+                        Войти
                     </Button>
                 </div>
             </form>
-            <p className="text_color_inactive">Уже зарегистрированы? <Link to='/login'>Войти</Link></p>
+            <p className="mb-4 text_color_inactive">Вы - новый пользователь? <Link to='/register'>Зарегистрироваться</Link></p>
+            <p className="text_color_inactive">Забыли пароль? <Link to='/forgot-password'>Восстановить пароль</Link></p>
         </div>
     );
 }

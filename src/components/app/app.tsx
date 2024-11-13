@@ -1,25 +1,25 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { AppHeader } from '../app-header/app-header.jsx'
+import { AppHeader } from '../app-header/app-header'
 import { getIngredients } from '../../services/actions/ingredients.js';
-import { Home } from "../../pages/home/home.jsx";
-import { Login } from "../../pages/login/login.jsx";
-import { NotFound404 } from "../../pages/not-found/not-found.jsx";
-import { Register } from "../../pages/register/register.jsx";
-import { ForgotPassword } from "../../pages/forgot-password/forgot-password.jsx";
-import { ResetPassword } from "../../pages/reset-password/reset-password.jsx";
-import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
-import { Profile } from "../../pages/profile/profile.jsx";
-import { OnlyAuth, OnlyUnAuth } from "../protected-route.jsx"
-import { Modal } from "../modal/modal.jsx";
+import { Home } from "../../pages/home/home";
+import { Login } from "../../pages/login/login";
+import { NotFound404 } from "../../pages/not-found/not-found";
+import { Register } from "../../pages/register/register";
+import { ForgotPassword } from "../../pages/forgot-password/forgot-password";
+import { ResetPassword } from "../../pages/reset-password/reset-password";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
+import { Profile } from "../../pages/profile/profile";
+import { OnlyAuth, OnlyUnAuth } from "../protected-route"
+import { Modal } from "../modal/modal";
 import { checkUserAuth } from "../../services/actions/user.js";
 import styles from './app.module.css'
-import { ProfileDetails } from "../profile-details/profile-details.jsx";
-import { Orders } from "../orders/Orders.jsx";
+import { ProfileDetails } from "../profile-details/profile-details";
+import { Orders } from "../orders/orders";
 
-const App = () => {
-  const dispatch = useDispatch();
+const App = (): React.JSX.Element => {
+  const dispatch = useDispatch();// @ts-ignore.
   const { items, itemsRequest, itemsError } = useSelector(state => state.ingredients);
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,11 +30,11 @@ const App = () => {
     navigate(-1);
   };
 
-  useEffect(() => {
+  useEffect(() => {// @ts-ignore.
     dispatch(getIngredients());
   }, [dispatch]);
 
-  useEffect(() => {
+  useEffect(() => {// @ts-ignore.
     dispatch(checkUserAuth());
   }, []);
 

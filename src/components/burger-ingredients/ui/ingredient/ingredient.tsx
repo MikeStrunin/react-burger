@@ -2,24 +2,27 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation, } from "react-router-dom";
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { IngredientItemType } from "../../../../utils/prop-types";
+
 import styles from './ingredient.module.css'
 import { useMemo } from "react";
 import { useDrag } from "react-dnd";
-import { DndItemTypes } from "../../../../utils/DndItemTypes.js"
+import { DndItemTypes } from "../../../../utils/DndItemTypes"
+import { TDragCollectedProps, TIngredientItemType } from "../../../../utils/types";
 
-export const Ingredient = ({ item }) => {
-    const location = useLocation();
+type TIngredient = { item: TIngredientItemType }
+
+export const Ingredient = ({ item }: TIngredient): React.JSX.Element => {
+    const location = useLocation();// @ts-ignore.
     const { bun, ingredients } = useSelector(store => store.burgerConstructor);
     const count = useMemo(() => {
         if (item.type === "bun") {
             return bun?._id === item._id ? 2 : 0;
-        } else {
+        } else {// @ts-ignore.
             return ingredients.filter(elem => elem._id === item._id).length;
         }
     }, [bun, ingredients]);
 
-    const [{ isDragging }, drag] = useDrag(() => ({
+    const [{ isDragging }, drag] = useDrag<TIngredientItemType, unknown, TDragCollectedProps>(() => ({
         type: DndItemTypes.ItemDragDrop,
         item: item,
         collect: (monitor) => ({
@@ -42,17 +45,13 @@ export const Ingredient = ({ item }) => {
                 <div className={`${styles.infoContainer} ml-4 mr-4`}>
                     <img className={styles.image} src={item.image} alt={`Ингредиент ${item.name?.length > 0 ? item.name : ""}`} />
                     <div className={`${styles.price} mt-1 mb-1`}>
-                        <span className="mr-2 text text_type_digits-small">{item.price}</span>
-                        <CurrencyIcon type="primary"> </CurrencyIcon>
+                        <span className={`${styles.text} mr-2 text text_type_digits-small`}>{item.price}</span>
+                        <CurrencyIcon type="primary" />
                     </div>
                 </div>
-                <span className="text text_type_main-small">{item.name}</span>
+                <div className={`${styles.text} text text_type_main-small`}>{item.name}</div>
                 {count > 0 && <Counter count={count} size="default" extraClass="m-1" />}
             </div>
         </Link>
     )
-}
-
-Ingredient.propTypes = {
-    item: IngredientItemType.isRequired,
 }

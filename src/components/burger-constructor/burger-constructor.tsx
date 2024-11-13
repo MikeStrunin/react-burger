@@ -1,16 +1,16 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { Modal } from "../modal/modal.jsx";
-import { OrderDetails } from "../order-details/order-details.jsx";
-import { IngredientsConstructor } from "./ui/ingredients-constructor/ingredients-constructor.jsx"
-import { IngredientsPrice } from "./ui/ingredients-price/ingredients-price.jsx"
+import { Modal } from "../modal/modal";
+import { OrderDetails } from "../order-details/order-details";
+import { IngredientsConstructor } from "./ui/ingredients-constructor/ingredients-constructor"
+import { IngredientsPrice } from "./ui/ingredients-price/ingredients-price"
 import { RESET_ORDER, RESET_ORDER_ERROR } from '../../services/actions/order-details.js';
 import { RESET_ITEMS } from "../../services/actions/burger-constructor.js";
 import styles from './burger-constructor.module.css'
 
 
-const BurgerConstructor = () => {
-    const dispatch = useDispatch();
+const BurgerConstructor = (): React.JSX.Element => {
+    const dispatch = useDispatch();// @ts-ignore.
     const { order, orderRequest, orderError } = useSelector((store) => store.order);
 
     const onCloseModal = () => {

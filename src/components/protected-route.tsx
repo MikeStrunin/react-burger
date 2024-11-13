@@ -1,12 +1,18 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-import PropTypes from "prop-types";
 
-const Protected = ({ onlyUnAuth = false, component }) => {
+type TProtectedRouteProps = {
+    onlyUnAuth?: boolean;
+    component: React.ReactNode;
+}
+
+const Protected = ({ onlyUnAuth = false, component }: TProtectedRouteProps): React.ReactNode => {
     // isAuthChecked это флаг, показывающий что проверка токена произведена
     // при этом результат этой проверки не имеет значения, важно только,
-    // что сам факт проверки имел место.
+    // что сам факт проверки имел место. 
+    // @ts-ignore.
     const isAuthChecked = useSelector((store) => store.user.isAuthChecked);
+    // @ts-ignore.
     const user = useSelector((store) => store.user.user);
     const location = useLocation();
 
@@ -34,16 +40,6 @@ const Protected = ({ onlyUnAuth = false, component }) => {
 };
 
 export const OnlyAuth = Protected;
-export const OnlyUnAuth = ({ component }) => (
+export const OnlyUnAuth = ({ component }: TProtectedRouteProps): React.JSX.Element => (
     <Protected onlyUnAuth={true} component={component} />
 );
-
-Protected.propTypes = {
-    onlyUnAuth: PropTypes.bool,
-    component: PropTypes.oneOfType([
-        // Either a function
-        PropTypes.func,
-        // Or the instance of a DOM native element (see the note about SSR)
-        PropTypes.shape({ current: PropTypes.instanceOf(Element) })
-    ]).isRequired,
-}
