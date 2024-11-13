@@ -5,15 +5,12 @@ import { useDispatch } from "react-redux";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login } from '../../services/actions/user';
 import { useForm } from '../../utils/useForm';
+import { TUserLoginData } from '../../utils/types';
 
-type TFormData = {
-    email: string;
-    password: string;
-};
 
 export const Login = (): React.JSX.Element => {
     const dispatch = useDispatch();
-    const [formData, onChange] = useForm<TFormData>({ email: '', password: '' })
+    const [formData, onChange] = useForm<TUserLoginData>({ email: '', password: '' })
 
     const [isHideMode, setHideMode] = useState<boolean>(true);
     const inputRef = React.useRef<HTMLInputElement | null>(null)

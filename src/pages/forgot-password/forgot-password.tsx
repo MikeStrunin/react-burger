@@ -4,13 +4,10 @@ import styles from './forgot-password.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { passwordReset } from '../../services/api';
 import { useForm } from '../../utils/useForm';
-
-type TFormData = {
-    email: string;
-};
+import { TUserPasswordResetData } from '../../utils/types';
 
 export const ForgotPassword = (): React.JSX.Element => {
-    const [formData, onChange] = useForm<TFormData>({ email: "" })
+    const [formData, onChange] = useForm<TUserPasswordResetData>({ email: "" })
     const [isErrorRequest, setIsErrorRequest] = useState<boolean | null>(null);
     const navigate = useNavigate();
 

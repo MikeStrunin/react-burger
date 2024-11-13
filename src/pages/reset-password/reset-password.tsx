@@ -4,14 +4,10 @@ import styles from './reset-password.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { passwordResetReset } from '../../services/api';
 import { useForm } from '../../utils/useForm';
-
-type TFormData = {
-    code: string;
-    password: string;
-};
+import { TUserPasswordResetResetData } from '../../utils/types';
 
 export const ResetPassword = (): React.JSX.Element => {
-    const [formData, onChange] = useForm<TFormData>({ code: '', password: '' })
+    const [formData, onChange] = useForm<TUserPasswordResetResetData>({ code: '', password: '' })
     const [isErrorRequest, setIsErrorRequest] = useState<boolean | null>(null);
     const [isHideMode, setHideMode] = useState<boolean>(true);
     const inputRef = React.useRef<HTMLInputElement>(null)

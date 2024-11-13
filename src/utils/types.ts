@@ -42,3 +42,23 @@ export type TDropCollectedIngredientProps = {
     isOverIngr: boolean;
     isOverBun: boolean;
 }
+
+export type TTokenData = {
+    success: boolean;
+    accessToken: string;
+    refreshToken: string;
+}
+
+export type TUserData = {
+    name: string;
+    email: string;
+    password?: string;
+}
+
+export type TUserPasswordResetData = Pick<TUserData, "email">
+
+export type TUserPasswordResetResetData = Required<Pick<TUserData, "password">> & { code: string }
+
+export type TUserRegisterData = Required<TUserData>
+
+export type TUserLoginData = Pick<TUserData, "email" | "password">

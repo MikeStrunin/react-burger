@@ -1,4 +1,4 @@
-import { getAllIngredientsRequest } from '../api.js';
+import { getAllIngredientsRequest } from '../api';
 
 export const GET_ITEMS_REQUEST = 'GET_ITEMS_REQUEST';
 export const GET_ITEMS_SUCCESS = 'GET_ITEMS_SUCCESS';

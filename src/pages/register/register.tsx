@@ -4,15 +4,10 @@ import styles from './register.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register as registerApi } from '../../services/api';
 import { useForm } from '../../utils/useForm';
-
-type TFormData = {
-    name: string;
-    email: string;
-    password: string;
-};
+import { TUserRegisterData } from '../../utils/types';
 
 export const Register = (): React.JSX.Element => {
-    const [formData, onChange] = useForm<TFormData>({ name: '', email: '', password: '' })
+    const [formData, onChange] = useForm<TUserRegisterData>({ name: '', email: '', password: '' })
     const [isHideMode, setHideMode] = useState<boolean>(true);
     const inputRef = React.useRef<HTMLInputElement>(null)
 

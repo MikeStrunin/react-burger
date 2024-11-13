@@ -3,17 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from './profile-details.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from '../../services/actions/user';
-
-type TFormData = {
-    name: string;
-    email: string;
-    password: string;
-};
+import { TUserData } from '../../utils/types';
 
 export const ProfileDetails = (): React.JSX.Element => {
     const dispatch = useDispatch(); // @ts-ignore.
     const user = useSelector((store) => store.user.user);
-    const [form, setValue] = useState<TFormData>(user); // user Or { ...user, password: "" }
+    const [form, setValue] = useState<TUserData>(user); // user Or { ...user, password: "" }
     const [isHideMode, setHideMode] = useState<boolean>(true);
     const inputRef = React.useRef<HTMLInputElement>(null)
 

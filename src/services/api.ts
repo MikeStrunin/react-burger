@@ -1,11 +1,13 @@
+import { TTokenData, TUserData, TUserLoginData, TUserPasswordResetData, TUserPasswordResetResetData, TUserRegisterData } from "../utils/types";
+
 const BURGER_API_URL = "https://norma.nomoreparties.space/api"
 
-const checkReponse = (res) => {
-    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));  // ранее- return Promise.reject(`Ошибка ${res.status}`);
+const checkReponse = <T>(res: Response): Promise<T> => {
+    return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-const fetchNoRefresh = (endpoint, options) => {
-    return fetch(`${BURGER_API_URL + endpoint}`, options).then(checkReponse)
+const fetchNoRefresh = <T>(endpoint: string, options?: RequestInit): Promise<T> => {
+    return fetch(`${BURGER_API_URL + endpoint}`, options).then(checkReponse<T>)
 }
 
 export const getAllIngredientsRequest = () => fetchNoRefresh("/ingredients");
@@ -20,7 +22,7 @@ export const refreshToken = () => {
             token: localStorage.getItem("refreshToken"),
         }),
     })
-        .then(checkReponse)
+        .then(checkReponse<TTokenData>)
         // !! Важно для обновления токена в мидлваре, чтобы запись была тут, а не в fetchWithRefresh
         .then((refreshData) => {
             if (!refreshData.success) {
@@ -32,15 +34,17 @@ export const refreshToken = () => {
         });
 };
 
-const fetchWithRefresh = async (endpoint, options) => {
+const fetchWithRefresh = async (endpoint: string, options: RequestInit) => {
     const url = `${BURGER_API_URL + endpoint}`;
     try {
         const res = await fetch(url, options);
         return await checkReponse(res);
     } catch (err) {
-        if (err.message === "jwt expired") {
+        if (err instanceof Error && err.message === "jwt expired") {
             const refreshData = await refreshToken(); //обновляем токен
-            options.headers.authorization = refreshData.accessToken;
+            if (options?.headers) {
+                ((options.headers) as Record<string, string>).authorization = refreshData.accessToken;
+            }
             const res = await fetch(url, options); //повторяем запрос
             return await checkReponse(res);
         } else {
@@ -51,21 +55,21 @@ const fetchWithRefresh = async (endpoint, options) => {
 
 export const getAllIngredientsfetchNoRefresh = () => fetchNoRefresh("/ingredients");
 
-export const createOrderRequest = (ingredientsID) => {
+export const createOrderRequest = (ingredientsID: Array<string>) => {
     return fetchWithRefresh("/orders",
         {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: localStorage.getItem("accessToken")
-            },
+                'Authorization': localStorage.getItem("accessToken")
+            } as Record<string, string>, // ругалось Types of property ''Authorization'' are incompatible
             body: JSON.stringify({
                 'ingredients': ingredientsID,
             }),
         });
 }
 
-export const passwordReset = ({ email }) => { // non-store request
+export const passwordReset = ({ email }: TUserPasswordResetData) => { // non-store request
     return fetchNoRefresh("/password-reset",
         {
             method: 'POST',
@@ -78,7 +82,7 @@ export const passwordReset = ({ email }) => { // non-store request
         });
 }
 
-export const passwordResetReset = ({ password, code }) => { // non-store request
+export const passwordResetReset = ({ password, code }: TUserPasswordResetResetData) => { // non-store request
     return fetchNoRefresh("/password-reset/reset",
         {
             method: 'POST',
@@ -92,7 +96,7 @@ export const passwordResetReset = ({ password, code }) => { // non-store request
         });
 }
 
-export const register = ({ email, password, name }) => {
+export const register = ({ email, password, name }: TUserRegisterData) => {
     return fetchNoRefresh("/auth/register",
         {
             method: 'POST',
@@ -107,7 +111,7 @@ export const register = ({ email, password, name }) => {
         });
 }
 
-export const login = ({ email, password }) => {
+export const login = ({ email, password }: TUserLoginData) => {
     return fetchNoRefresh("/auth/login",
         {
             method: 'POST',
@@ -140,22 +144,22 @@ export const getUser = () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: localStorage.getItem("accessToken")
-            },
+                'Authorization': localStorage.getItem("accessToken")
+            } as Record<string, string>, // ругалось Types of property ''Authorization'' are incompatible
             // body: JSON.stringify({
             //     "token": refreshToken,
             // }),
         });
 }
 
-export const updateUser = (user) => {
+export const updateUser = (user: TUserData) => {
     return fetchWithRefresh("/auth/user",
         {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: localStorage.getItem("accessToken")
-            },
+                'Authorization': localStorage.getItem("accessToken")
+            } as Record<string, string>, // ругалось Types of property ''Authorization'' are incompatible
             body: JSON.stringify(user)
         });
 }
