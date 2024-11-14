@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { BurgerIcon, ProfileIcon, ListIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css'
 
-const AppHeader = () => {
+const AppHeader = (): React.JSX.Element => {
+    // @ts-ignore.
     const user = useSelector((store) => store.user.user);
 
-    const getButtonType = (isRouteActive) => isRouteActive ? "primary" : "secondary"
-    const getTextType = (isRouteActive) => isRouteActive ? null : "text_color_inactive"
+    const getButtonType = (isRouteActive: boolean) => isRouteActive ? "primary" : "secondary"
+    const getTextType = (isRouteActive: boolean) => isRouteActive ? null : "text_color_inactive"
     const linkActiveColor = { color: "#f2f2f3" };
 
     return (
@@ -15,7 +16,7 @@ const AppHeader = () => {
             <nav className={styles.nav}>
                 <NavLink
                     to='/'
-                    style={({ isActive }) => (isActive ? linkActiveColor : null)}
+                    style={({ isActive }) => (isActive ? linkActiveColor : undefined)}
                     end
                 >
                     {({ isActive }) =>
@@ -28,7 +29,7 @@ const AppHeader = () => {
 
                 <NavLink
                     to='/feed'
-                    style={({ isActive }) => (isActive ? linkActiveColor : null)}
+                    style={({ isActive }) => (isActive ? linkActiveColor : undefined)}
                     end
                 >
                     {({ isActive }) =>
@@ -45,7 +46,7 @@ const AppHeader = () => {
             <nav className={styles.nav}>
                 <NavLink
                     to='/profile'
-                    style={({ isActive }) => (isActive ? linkActiveColor : null)}
+                    style={({ isActive }) => (isActive ? linkActiveColor : undefined)}
                     end
                 >
                     {({ isActive }) =>

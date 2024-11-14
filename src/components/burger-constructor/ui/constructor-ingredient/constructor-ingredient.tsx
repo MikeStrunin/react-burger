@@ -5,14 +5,13 @@ import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burg
 import { deleteItem, moveItem } from "../../../../services/actions/burger-constructor";
 import { DndItemTypes } from "../../../../utils/DndItemTypes"
 import styles from './constructor-ingredient.module.css'
-import PropTypes from "prop-types";
-import { IngredientItemType } from "../../../../utils/prop-types";
+import { TConstructorItem, TDragCollectedProps, TDragObject, TDropCollectedProps } from "../../../../utils/types";
 
-export const ConstructorIngredient = ({ item, id, index }) => {
+export const ConstructorIngredient = ({ item, id, index }: TConstructorItem): React.JSX.Element => {
     const dispatch = useDispatch();
 
-    const ref = useRef(null)
-    const [{ handlerId }, drop] = useDrop({
+    const ref = useRef<HTMLLIElement>(null)
+    const [{ handlerId }, drop] = useDrop<TDragObject, unknown, TDropCollectedProps>({
         accept: DndItemTypes.ItemSwap,
         collect(monitor) {
             return {
@@ -36,6 +35,7 @@ export const ConstructorIngredient = ({ item, id, index }) => {
             // Determine mouse position
             const clientOffset = monitor.getClientOffset()
             // Get pixels to the top
+            if (!clientOffset) { return; }
             const hoverClientY = clientOffset.y - hoverBoundingRect.top
             // Only perform the move when the mouse has crossed half of the items height
             // When dragging downwards, only move when the cursor is below 50%
@@ -58,7 +58,7 @@ export const ConstructorIngredient = ({ item, id, index }) => {
         },
     })
 
-    const [{ isDragging }, drag] = useDrag({
+    const [{ isDragging }, drag] = useDrag<TDragObject, unknown, TDragCollectedProps>({
         type: DndItemTypes.ItemSwap,
         item: () => {
             return { id, index }
@@ -77,14 +77,9 @@ export const ConstructorIngredient = ({ item, id, index }) => {
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
-                handleClose={() => dispatch(deleteItem(item))}
+                handleClose={() => dispatch(// @ts-ignore.
+                    deleteItem(item))}
             />
         </li>
     )
-}
-
-ConstructorIngredient.propTypes = {
-    item: IngredientItemType.isRequired,
-    id: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
 }

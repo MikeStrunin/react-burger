@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './register.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { register as registerApi } from '../../services/api';
 import { useForm } from '../../utils/useForm';
+import { TUserRegisterData } from '../../utils/types';
 
-export const Register = () => {
-    const [formData, onChange] = useForm({ name: '', email: '', password: '' })
-    const [isHideMode, setHideMode] = useState(true);
-    const inputRef = React.useRef(null)
+export const Register = (): React.JSX.Element => {
+    const [formData, onChange] = useForm<TUserRegisterData>({ name: '', email: '', password: '' })
+    const [isHideMode, setHideMode] = useState<boolean>(true);
+    const inputRef = React.useRef<HTMLInputElement>(null)
 
-    const onHideShowIconClick = e => {
-        setTimeout(() => inputRef.current.focus(), 0)
+    const onHideShowIconClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        }, 0)
         setHideMode(!isHideMode);
     }
-    const formSubmit = (e) => {
+    const formSubmit = (e: FormEvent) => {
         e.preventDefault();
         registerApi(formData)
     };

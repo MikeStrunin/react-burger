@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './forgot-password.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { passwordReset } from '../../services/api';
 import { useForm } from '../../utils/useForm';
+import { TUserPasswordResetData } from '../../utils/types';
 
-export const ForgotPassword = () => {
-    const [formData, onChange] = useForm({ email: "" })
-    const [isErrorRequest, setIsErrorRequest] = useState(null);
+export const ForgotPassword = (): React.JSX.Element => {
+    const [formData, onChange] = useForm<TUserPasswordResetData>({ email: "" })
+    const [isErrorRequest, setIsErrorRequest] = useState<boolean | null>(null);
     const navigate = useNavigate();
 
-    const formSubmit = (e) => {
+    const formSubmit = (e: FormEvent) => {
         e.preventDefault();
         passwordReset(formData)
             .then(() => {
-                localStorage.setItem("resetPassword", true);
+                localStorage.setItem("resetPassword", "true");
                 navigate('/reset-password')
             })
             .catch((err) => setIsErrorRequest(err?.message));

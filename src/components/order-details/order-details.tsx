@@ -2,7 +2,7 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 import { useSelector } from 'react-redux';
 import styles from './order-details.module.css'
 
-const OrderDetails = () => {
+const OrderDetails = (): React.JSX.Element => { // @ts-ignore.
     const { order, orderRequest, orderError } = useSelector((store) => store.order);
 
     return (

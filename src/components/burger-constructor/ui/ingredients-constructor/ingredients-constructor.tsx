@@ -6,14 +6,18 @@ import { addItem } from "../../../../services/actions/burger-constructor";
 import { DndItemTypes } from "../../../../utils/DndItemTypes"
 import { ConstructorIngredient } from "../constructor-ingredient/constructor-ingredient";
 import styles from './ingredients-constructor.module.css'
+import { TDropCollectedIngredientProps, TIngredientItemType } from "../../../../utils/types";
 
-export const IngredientsConstructor = () => {
+export const IngredientsConstructor = (): React.JSX.Element => {
     const dispatch = useDispatch();
+    // @ts-ignore.
     const { bun, ingredients } = useSelector(state => state.burgerConstructor);
 
-    const [{ canDropIngr, canDropBun, isOverIngr, isOverBun }, drop] = useDrop(() => ({
+    const [{ canDropIngr, canDropBun, isOverIngr, isOverBun }, drop] = useDrop<TIngredientItemType, unknown, TDropCollectedIngredientProps>(() => ({
         accept: DndItemTypes.ItemDragDrop,
-        drop: (item) => (dispatch(addItem(item))),
+        drop: (item) => (
+            // @ts-ignore.
+            dispatch(addItem(item))),
         collect: (monitor) => ({
             canDropIngr: monitor.getItem()?.type !== "bun" && monitor.canDrop(),
             canDropBun: monitor.getItem()?.type === "bun" && monitor.canDrop(),
@@ -43,9 +47,11 @@ export const IngredientsConstructor = () => {
             }
             {ingredients && ingredients.length > 0 ?
                 (<ul className={`${styles.constructorContainer} pr-5`}>
-                    {ingredients.map((item, index) => (
-                        <ConstructorIngredient item={item} id={item.key} index={index} key={item.key} />
-                    ))}
+                    {
+                        // @ts-ignore.
+                        ingredients.map((item, index) => (
+                            <ConstructorIngredient item={item} id={item.key} index={index} key={item.key} />
+                        ))}
                 </ul>)
                 :
                 (<div className={`${styles.emptyitem} ${canDropIngr && styles.canDrop} ${isOverIngr && styles.isOver}`}>

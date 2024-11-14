@@ -1,25 +1,31 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './login.module.css';
 import { useDispatch } from "react-redux";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login } from '../../services/actions/user';
 import { useForm } from '../../utils/useForm';
+import { TUserLoginData } from '../../utils/types';
 
-export const Login = () => {
+
+export const Login = (): React.JSX.Element => {
     const dispatch = useDispatch();
-    const [formData, onChange] = useForm({ email: '', password: '' })
+    const [formData, onChange] = useForm<TUserLoginData>({ email: '', password: '' })
 
-    const [isHideMode, setHideMode] = useState(true);
-    const inputRef = React.useRef(null)
+    const [isHideMode, setHideMode] = useState<boolean>(true);
+    const inputRef = React.useRef<HTMLInputElement | null>(null)
 
-    const onHideShowIconClick = e => {
-        setTimeout(() => inputRef.current.focus(), 0)
+    const onHideShowIconClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        }, 0)
         setHideMode(!isHideMode);
     }
 
-    const formSubmit = (e) => {
-        e.preventDefault();
+    const formSubmit = (e: FormEvent) => {
+        e.preventDefault();// @ts-ignore.
         dispatch(login(formData));
     };
 

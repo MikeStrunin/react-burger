@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './reset-password.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { passwordResetReset } from '../../services/api';
 import { useForm } from '../../utils/useForm';
+import { TUserPasswordResetResetData } from '../../utils/types';
 
-export const ResetPassword = () => {
-    const [formData, onChange] = useForm({ code: '', password: '' })
-    const [isErrorRequest, setIsErrorRequest] = useState(null);
-    const [isHideMode, setHideMode] = useState(true);
-    const inputRef = React.useRef(null)
+export const ResetPassword = (): React.JSX.Element => {
+    const [formData, onChange] = useForm<TUserPasswordResetResetData>({ code: '', password: '' })
+    const [isErrorRequest, setIsErrorRequest] = useState<boolean | null>(null);
+    const [isHideMode, setHideMode] = useState<boolean>(true);
+    const inputRef = React.useRef<HTMLInputElement>(null)
     const navigate = useNavigate();
 
-    const onHideShowIconClick = e => {
-        setTimeout(() => inputRef.current.focus(), 0)
+    const onHideShowIconClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        setTimeout(() => {
+            if (inputRef.current) {
+                inputRef.current.focus();
+            }
+        }, 0)
         setHideMode(!isHideMode);
     }
-    const formSubmit = (e) => {
+    const formSubmit = (e: FormEvent) => {
         e.preventDefault();
         passwordResetReset(formData)
             .then(() => {
