@@ -46,7 +46,7 @@ export const IngredientsConstructor = (): React.JSX.Element => {
                 (<ul className={`${styles.constructorContainer} pr-5`}>
                     {
                         ingredients.map((item, index) => (
-                            <ConstructorIngredient item={item} id={item.key} index={index} key={item.key} />
+                            <ConstructorIngredient item={item} id={item.key as string} index={index.toString()} key={item.key} />
                         ))}
                 </ul>)
                 :

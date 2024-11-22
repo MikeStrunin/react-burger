@@ -23,7 +23,9 @@ export const IngredientsPrice = (): React.JSX.Element => {
     }, [bun, ingredients])
 
     const onCreateOrderClick = () => {
-        user ? dispatch(createOrder({ bun, ingredients })) : navigate('/login');
+        (user && bun && ingredients)
+            ? dispatch(createOrder({ bun, ingredients }))
+            : navigate('/login');
     }
 
     return (

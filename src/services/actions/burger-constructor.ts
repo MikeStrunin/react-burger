@@ -19,8 +19,8 @@ export interface IDeleteItemAction {
 
 export interface IMoveItemAction {
     readonly type: typeof MOVE_ITEM;
-    readonly fromIndex: string;
-    readonly toIndex: string;
+    readonly fromIndex: number;
+    readonly toIndex: number;
 }
 export interface IResetItemAction {
     readonly type: typeof RESET_ITEMS;
@@ -42,7 +42,7 @@ export const deleteItem = (item: TIngredientItemType): AppThunkAction => (dispat
     })
 };
 
-export const moveItem = (fromIndex: string, toIndex: string): IMoveItemAction => {
+export const moveItem = (fromIndex: number, toIndex: number): IMoveItemAction => {
     return {
         type: MOVE_ITEM,
         fromIndex: fromIndex,

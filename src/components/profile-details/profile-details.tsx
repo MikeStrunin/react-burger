@@ -8,12 +8,14 @@ import { TUserData } from '../../utils/types';
 export const ProfileDetails = (): React.JSX.Element => {
     const dispatch = useDispatch();
     const user = useSelector((store) => store.user.user);
-    const [form, setValue] = useState<TUserData>(user); // user Or { ...user, password: "" }
+    const [form, setValue] = useState<TUserData | null>(user); // user Or { ...user, password: "" }
     const [isHideMode, setHideMode] = useState<boolean>(true);
     const inputRef = React.useRef<HTMLInputElement>(null)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...form, [e.target.name]: e.target.value });
+        if (form) {
+            setValue({ ...form, [e.target.name]: e.target.value });
+        }
     };
     const onHideShowIconClick = (e: React.MouseEvent<HTMLDivElement>) => {
         setTimeout(() => {
@@ -25,7 +27,9 @@ export const ProfileDetails = (): React.JSX.Element => {
     }
     const formSubmit = (e: FormEvent) => {
         e.preventDefault();
-        dispatch(updateUser(form));
+        if (form) {
+            dispatch(updateUser(form));
+        }
     };
     const onCancelButtonClick = () => {
         setValue(user);
@@ -38,7 +42,7 @@ export const ProfileDetails = (): React.JSX.Element => {
                 placeholder={'Имя'}
                 onChange={onChange}
                 icon={'EditIcon'}
-                value={form.name}
+                value={form?.name ?? ""}
                 name={'name'}
                 error={false}
                 //ref={inputRef}
@@ -52,7 +56,7 @@ export const ProfileDetails = (): React.JSX.Element => {
                 placeholder={'Логин'}
                 onChange={onChange}
                 icon={'EditIcon'}
-                value={form.email}
+                value={form?.email ?? ""}
                 name={'email'}
                 error={false}
                 //ref={inputRef}
@@ -66,7 +70,7 @@ export const ProfileDetails = (): React.JSX.Element => {
                 placeholder={'Пароль'}
                 onChange={onChange}
                 icon={isHideMode ? 'ShowIcon' : 'HideIcon'}
-                value={form.password ?? ""}
+                value={form?.password ?? ""}
                 name={'password'}
                 error={false}
                 ref={inputRef}

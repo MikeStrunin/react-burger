@@ -3,7 +3,7 @@ import { ADD_ITEM_SUCCESS, DELETE_ITEM_SUCCESS, MOVE_ITEM, RESET_ITEMS, TBurgerI
 
 type TBurgerItemsState = {
     bun: TIngredientItemType | null;
-    ingredients: ReadonlyArray<TIngredientItemType>;
+    ingredients: Array<TIngredientItemType>;
 }
 
 const initialState: TBurgerItemsState = {
