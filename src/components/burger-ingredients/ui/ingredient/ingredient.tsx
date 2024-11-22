@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../../../services/hooks";
 import { Link, useLocation, } from "react-router-dom";
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -12,12 +12,12 @@ import { TDragCollectedProps, TIngredientItemType } from "../../../../utils/type
 type TIngredient = { item: TIngredientItemType }
 
 export const Ingredient = ({ item }: TIngredient): React.JSX.Element => {
-    const location = useLocation();// @ts-ignore.
+    const location = useLocation();
     const { bun, ingredients } = useSelector(store => store.burgerConstructor);
     const count = useMemo(() => {
         if (item.type === "bun") {
             return bun?._id === item._id ? 2 : 0;
-        } else {// @ts-ignore.
+        } else {
             return ingredients.filter(elem => elem._id === item._id).length;
         }
     }, [bun, ingredients]);

@@ -62,3 +62,45 @@ export type TUserPasswordResetResetData = Required<Pick<TUserData, "password">> 
 export type TUserRegisterData = Required<TUserData>
 
 export type TUserLoginData = Required<Pick<TUserData, "email" | "password">>
+
+export type TIngredientsResponse = {
+    success: boolean;
+    data: Array<TIngredientItemType>
+}
+
+export type TResetPasswordResponse = {
+    success: boolean;
+    message: string
+}
+
+export type TRegisterResponse = {
+    success: boolean;
+    user: {
+        email: string,
+        name: string
+    },
+    accessToken: string,
+    refreshToken: string
+}
+
+export type TLogoutResponse = {
+    success: boolean;
+    message: string
+}
+
+export type TCreateOrderResponse = {
+    success: boolean;
+    name: string,
+    order: {
+        number: number
+    },
+}
+
+export type TAuthUserResponse = {
+    success: boolean;
+    user: {
+        email: string,
+        name: string
+    },
+}
+

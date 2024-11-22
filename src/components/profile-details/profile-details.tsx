@@ -1,12 +1,12 @@
 import React, { FormEvent, useState } from 'react';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import styles from './profile-details.module.css';
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from '../../services/actions/user';
 import { TUserData } from '../../utils/types';
 
 export const ProfileDetails = (): React.JSX.Element => {
-    const dispatch = useDispatch(); // @ts-ignore.
+    const dispatch = useDispatch();
     const user = useSelector((store) => store.user.user);
     const [form, setValue] = useState<TUserData>(user); // user Or { ...user, password: "" }
     const [isHideMode, setHideMode] = useState<boolean>(true);
@@ -24,7 +24,7 @@ export const ProfileDetails = (): React.JSX.Element => {
         setHideMode(!isHideMode);
     }
     const formSubmit = (e: FormEvent) => {
-        e.preventDefault();// @ts-ignore.
+        e.preventDefault();
         dispatch(updateUser(form));
     };
     const onCancelButtonClick = () => {

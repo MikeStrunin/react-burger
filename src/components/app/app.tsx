@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { AppHeader } from '../app-header/app-header'
 import { getIngredients } from '../../services/actions/ingredients.js';
@@ -17,9 +16,10 @@ import { checkUserAuth } from "../../services/actions/user.js";
 import styles from './app.module.css'
 import { ProfileDetails } from "../profile-details/profile-details";
 import { Orders } from "../orders/orders";
+import { useDispatch, useSelector } from "../../services/hooks";
 
 const App = (): React.JSX.Element => {
-  const dispatch = useDispatch();// @ts-ignore.
+  const dispatch = useDispatch();
   const { items, itemsRequest, itemsError } = useSelector(state => state.ingredients);
   const location = useLocation();
   const navigate = useNavigate();
@@ -30,11 +30,11 @@ const App = (): React.JSX.Element => {
     navigate(-1);
   };
 
-  useEffect(() => {// @ts-ignore.
+  useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
 
-  useEffect(() => {// @ts-ignore.
+  useEffect(() => {
     dispatch(checkUserAuth());
   }, []);
 

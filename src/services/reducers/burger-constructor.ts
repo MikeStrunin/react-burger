@@ -1,21 +1,28 @@
-import { ADD_ITEM_SUCCESS, DELETE_ITEM_SUCCESS, MOVE_ITEM, RESET_ITEMS } from "../actions/burger-constructor";
+import { TIngredientItemType } from "../../utils/types";
+import { ADD_ITEM_SUCCESS, DELETE_ITEM_SUCCESS, MOVE_ITEM, RESET_ITEMS, TBurgerItemsActions } from "../actions/burger-constructor";
 
-const initialState = {
+type TBurgerItemsState = {
+    bun: TIngredientItemType | null;
+    ingredients: ReadonlyArray<TIngredientItemType>;
+}
+
+const initialState: TBurgerItemsState = {
     bun: null,
     ingredients: [],
 };
 
-export const burgerConstructorReducer = (state = initialState, action) => {
-    const isBun = action?.item?.type === 'bun';
+export const burgerConstructorReducer = (state = initialState, action: TBurgerItemsActions): TBurgerItemsState => {
 
     switch (action.type) {
         case ADD_ITEM_SUCCESS:
+            let isBun = action?.item?.type === 'bun';
             return {
                 ...state,
                 bun: isBun ? action.item : state.bun,
                 ingredients: isBun ? state.ingredients : [...state.ingredients, action.item],
             }
         case DELETE_ITEM_SUCCESS:
+            isBun = action?.item?.type === 'bun'; //? почему тут нельзя второй раз объявить с тем же именем?! разные ведь блоки
             return {
                 ...state,
                 bun: isBun ? null : state.bun,

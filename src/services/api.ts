@@ -1,4 +1,4 @@
-import { TTokenData, TUserData, TUserLoginData, TUserPasswordResetData, TUserPasswordResetResetData, TUserRegisterData } from "../utils/types";
+import { TAuthUserResponse, TCreateOrderResponse, TIngredientsResponse, TLogoutResponse, TRegisterResponse, TResetPasswordResponse, TTokenData, TUserData, TUserLoginData, TUserPasswordResetData, TUserPasswordResetResetData, TUserRegisterData } from "../utils/types";
 
 const BURGER_API_URL = "https://norma.nomoreparties.space/api"
 
@@ -9,8 +9,6 @@ const checkReponse = <T>(res: Response): Promise<T> => {
 const fetchNoRefresh = <T>(endpoint: string, options?: RequestInit): Promise<T> => {
     return fetch(`${BURGER_API_URL + endpoint}`, options).then(checkReponse<T>)
 }
-
-export const getAllIngredientsRequest = () => fetchNoRefresh("/ingredients");
 
 export const refreshToken = () => {
     return fetch(`${BURGER_API_URL}/auth/token`, {
@@ -34,11 +32,11 @@ export const refreshToken = () => {
         });
 };
 
-const fetchWithRefresh = async (endpoint: string, options: RequestInit) => {
+const fetchWithRefresh = async <T>(endpoint: string, options: RequestInit) => {
     const url = `${BURGER_API_URL + endpoint}`;
     try {
         const res = await fetch(url, options);
-        return await checkReponse(res);
+        return await checkReponse<T>(res);
     } catch (err) {
         if (err instanceof Error && err.message === "jwt expired") {
             const refreshData = await refreshToken(); //обновляем токен
@@ -46,17 +44,17 @@ const fetchWithRefresh = async (endpoint: string, options: RequestInit) => {
                 ((options.headers) as Record<string, string>).authorization = refreshData.accessToken;
             }
             const res = await fetch(url, options); //повторяем запрос
-            return await checkReponse(res);
+            return await checkReponse<T>(res);
         } else {
             return Promise.reject(err);
         }
     }
 };
 
-export const getAllIngredientsfetchNoRefresh = () => fetchNoRefresh("/ingredients");
+export const getAllIngredientsRequest = () => fetchNoRefresh<TIngredientsResponse>("/ingredients");
 
 export const createOrderRequest = (ingredientsID: Array<string>) => {
-    return fetchWithRefresh("/orders",
+    return fetchWithRefresh<TCreateOrderResponse>("/orders",
         {
             method: 'POST',
             headers: {
@@ -70,7 +68,7 @@ export const createOrderRequest = (ingredientsID: Array<string>) => {
 }
 
 export const passwordReset = ({ email }: TUserPasswordResetData) => { // non-store request
-    return fetchNoRefresh("/password-reset",
+    return fetchNoRefresh<TResetPasswordResponse>("/password-reset",
         {
             method: 'POST',
             headers: {
@@ -83,7 +81,7 @@ export const passwordReset = ({ email }: TUserPasswordResetData) => { // non-sto
 }
 
 export const passwordResetReset = ({ password, code }: TUserPasswordResetResetData) => { // non-store request
-    return fetchNoRefresh("/password-reset/reset",
+    return fetchNoRefresh<undefined>("/password-reset/reset",
         {
             method: 'POST',
             headers: {
@@ -97,7 +95,7 @@ export const passwordResetReset = ({ password, code }: TUserPasswordResetResetDa
 }
 
 export const register = ({ email, password, name }: TUserRegisterData) => {
-    return fetchNoRefresh("/auth/register",
+    return fetchNoRefresh<TRegisterResponse>("/auth/register",
         {
             method: 'POST',
             headers: {
@@ -112,7 +110,7 @@ export const register = ({ email, password, name }: TUserRegisterData) => {
 }
 
 export const login = ({ email, password }: TUserLoginData) => {
-    return fetchNoRefresh("/auth/login",
+    return fetchNoRefresh<TRegisterResponse>("/auth/login",
         {
             method: 'POST',
             headers: {
@@ -126,7 +124,7 @@ export const login = ({ email, password }: TUserLoginData) => {
 }
 
 export const logout = () => {
-    return fetchNoRefresh("/auth/logout",
+    return fetchNoRefresh<TLogoutResponse>("/auth/logout",
         {
             method: 'POST',
             headers: {
@@ -139,7 +137,7 @@ export const logout = () => {
 }
 
 export const getUser = () => {
-    return fetchWithRefresh("/auth/user",
+    return fetchWithRefresh<TAuthUserResponse>("/auth/user",
         {
             method: 'GET',
             headers: {
@@ -153,7 +151,7 @@ export const getUser = () => {
 }
 
 export const updateUser = (user: TUserData) => {
-    return fetchWithRefresh("/auth/user",
+    return fetchWithRefresh<TAuthUserResponse>("/auth/user",
         {
             method: 'PATCH',
             headers: {

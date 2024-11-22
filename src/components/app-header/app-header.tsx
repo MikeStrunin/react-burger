@@ -1,10 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useSelector } from '../../services/hooks';
 import { BurgerIcon, ProfileIcon, ListIcon, Logo } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './app-header.module.css'
 
 const AppHeader = (): React.JSX.Element => {
-    // @ts-ignore.
     const user = useSelector((store) => store.user.user);
 
     const getButtonType = (isRouteActive: boolean) => isRouteActive ? "primary" : "secondary"

@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../../../services/hooks";
 import { useDrop, useDrag } from "react-dnd";
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { deleteItem, moveItem } from "../../../../services/actions/burger-constructor";
@@ -77,7 +77,7 @@ export const ConstructorIngredient = ({ item, id, index }: TConstructorItem): Re
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
-                handleClose={() => dispatch(// @ts-ignore.
+                handleClose={() => dispatch(
                     deleteItem(item))}
             />
         </li>
