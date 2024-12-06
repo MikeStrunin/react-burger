@@ -22,11 +22,11 @@ export const burgerConstructorReducer = (state = initialState, action: TBurgerIt
                 ingredients: isBun ? state.ingredients : [...state.ingredients, action.item],
             }
         case DELETE_ITEM_SUCCESS:
-            isBun = action?.item?.type === 'bun'; //? почему тут нельзя второй раз объявить с тем же именем?! разные ведь блоки
+            let isBunDelete = action?.item?.type === 'bun'; //? почему тут нельзя второй раз объявить с тем же именем?! разные ведь блоки
             return {
                 ...state,
-                bun: isBun ? null : state.bun,
-                ingredients: isBun ? state.ingredients : state.ingredients.filter(ingredient => ingredient.key !== action.item.key)
+                bun: isBunDelete ? null : state.bun,
+                ingredients: isBunDelete ? state.ingredients : state.ingredients.filter(ingredient => ingredient.key !== action.item.key)
             }
         case MOVE_ITEM:
             const ingredientsTmp = [...state.ingredients];
