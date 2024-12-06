@@ -1,24 +1,23 @@
 import React, { useEffect } from 'react';
-import styles from "./orders.module.css";
-import { WebsocketStatus } from '../../services/feed/feed';
+import styles from './feed.module.css';
+import { OrderFeedItem } from '../../components/feed-item/feed-item';
+import { OrdersStatusInfo } from '../../components/orders-status-info/orders-status-info';
 import { useDispatch, useSelector } from '../../services/hooks';
-import { Link, useLocation } from "react-router-dom";
 import { wsConnect, wsDisconnect } from '../../services/feed/actions';
-import { OrderFeedItem } from '../feed-item/feed-item';
+import { WebsocketStatus } from '../../services/feed/feed';
+import { Link, useLocation } from "react-router-dom";
 import { WSS_BASE_URL } from '../../services/api';
 
-export const Orders = (): React.JSX.Element => {
+export const Feed = (): React.JSX.Element => {
     const dispatch = useDispatch();
+    const { orders, status } = useSelector(state => state.feed);
     let location = useLocation();
 
     useEffect(() => {
-        dispatch(wsConnect(WSS_BASE_URL + "?token=" + localStorage.getItem("accessToken")?.slice(7)));
-        return () => {
-            dispatch(wsDisconnect());
-        };
+        dispatch(wsConnect(WSS_BASE_URL + "/all"));
+        return () => { dispatch(wsDisconnect()); };
     }, []);
 
-    const { orders, status } = useSelector(state => state.feed);
 
     if (orders?.orders?.length == 0) {
         if (status === WebsocketStatus.CONNECTING) {
@@ -31,21 +30,27 @@ export const Orders = (): React.JSX.Element => {
     }
 
     return (
-        <div className={styles.container}>
+        <section className={styles.section}>
+            <h1 className={`${styles.caption} pt-10 pb-5 text text_type_main-large main`}>Лента заказов</h1>
             <div className={styles.column}>
-                <div className={`${styles.conteinerLeftText}`}>
-                    {orders?.orders?.map((item) => (
+                <div className={`${styles.containerScroll}`}>
+                    {orders.orders.map((item) => (
                         <Link
                             key={item._id}
-                            to={`/profile/orders/${item.number}`}
+                            to={`/feed/${item.number}`}
                             state={{ background: location }}
                             className={styles.link}
                         >
                             <OrderFeedItem order={item} key={item._id} />
                         </Link>
-                    )).reverse()}
+                    ))}
                 </div>
             </div>
-        </div>
-    )
+
+            <div className={styles.column}>
+                <OrdersStatusInfo />
+            </div>
+        </section>
+    );
 }
+

@@ -1,11 +1,11 @@
 import React, { useRef, useMemo } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/hooks";
 import { Ingredients } from "./ui/ingredients/ingredients";
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredients.module.css'
 
-const BurgerIngredients = (): React.JSX.Element => {// @ts-ignore.
+const BurgerIngredients = (): React.JSX.Element => {
     const ingredients = useSelector(store => store.ingredients.items);
     const [currentTab, setCurrentTab] = React.useState<string>('bun');
     const scrollTitleRef = useRef<HTMLDivElement | null>(null);
@@ -13,11 +13,8 @@ const BurgerIngredients = (): React.JSX.Element => {// @ts-ignore.
     const saucesRef = useRef<HTMLHeadingElement | null>(null);
     const mainsRef = useRef<HTMLHeadingElement | null>(null);
 
-    // @ts-ignore.
     const bunsIngredients = useMemo(() => ingredients.filter(i => i.type === 'bun'), ingredients);
-    // @ts-ignore.
     const saucesIngredients = useMemo(() => ingredients.filter(i => i.type === 'sauce'), ingredients);
-    // @ts-ignore.
     const mainIngredients = useMemo(() => ingredients.filter(i => i.type === 'main'), ingredients);
 
     const handleScroll = () => {

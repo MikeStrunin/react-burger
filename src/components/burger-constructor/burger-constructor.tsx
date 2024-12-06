@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from "../../services/hooks";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
 import { IngredientsConstructor } from "./ui/ingredients-constructor/ingredients-constructor"
@@ -10,7 +10,7 @@ import styles from './burger-constructor.module.css'
 
 
 const BurgerConstructor = (): React.JSX.Element => {
-    const dispatch = useDispatch();// @ts-ignore.
+    const dispatch = useDispatch();
     const { order, orderRequest, orderError } = useSelector((store) => store.order);
 
     const onCloseModal = () => {

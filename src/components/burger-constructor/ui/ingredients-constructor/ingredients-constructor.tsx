@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../../../services/hooks";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { addItem } from "../../../../services/actions/burger-constructor";
@@ -10,14 +10,11 @@ import { TDropCollectedIngredientProps, TIngredientItemType } from "../../../../
 
 export const IngredientsConstructor = (): React.JSX.Element => {
     const dispatch = useDispatch();
-    // @ts-ignore.
     const { bun, ingredients } = useSelector(state => state.burgerConstructor);
 
     const [{ canDropIngr, canDropBun, isOverIngr, isOverBun }, drop] = useDrop<TIngredientItemType, unknown, TDropCollectedIngredientProps>(() => ({
         accept: DndItemTypes.ItemDragDrop,
-        drop: (item) => (
-            // @ts-ignore.
-            dispatch(addItem(item))),
+        drop: (item) => (dispatch(addItem(item))),
         collect: (monitor) => ({
             canDropIngr: monitor.getItem()?.type !== "bun" && monitor.canDrop(),
             canDropBun: monitor.getItem()?.type === "bun" && monitor.canDrop(),
@@ -48,9 +45,8 @@ export const IngredientsConstructor = (): React.JSX.Element => {
             {ingredients && ingredients.length > 0 ?
                 (<ul className={`${styles.constructorContainer} pr-5`}>
                     {
-                        // @ts-ignore.
                         ingredients.map((item, index) => (
-                            <ConstructorIngredient item={item} id={item.key} index={index} key={item.key} />
+                            <ConstructorIngredient item={item} id={item.key as string} index={index.toString()} key={item.key} />
                         ))}
                 </ul>)
                 :

@@ -1,11 +1,11 @@
 import { useMemo } from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from "../../services/hooks";
 import { useParams } from 'react-router-dom';
 import styles from './ingredient-details.module.css'
 
-const IngredientDetails = (): React.JSX.Element => {// @ts-ignore.
+const IngredientDetails = (): React.JSX.Element => {
     const ingredients = useSelector(store => store.ingredients.items);
-    const { ingredientId } = useParams();// @ts-ignore.
+    const { ingredientId } = useParams();
     const ingredient = useMemo(() => ingredients.find(item => item._id === ingredientId), [ingredientId, ingredients]);
 
     return (

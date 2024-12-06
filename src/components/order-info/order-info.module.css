@@ -1,0 +1,50 @@
+.greenColor {
+    color: #0cc;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+    justify-content: center;
+    width: 640px;
+    margin: auto;
+}
+
+.image {
+    height: 64px;
+    width: 64px;
+    background-color: #131316;
+    border-radius: 100px;
+    border: 2px solid #801AB2;
+}
+
+.composition {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 40vh;
+}
+
+.inline {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inlinecontent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inlinetitle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nametitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
