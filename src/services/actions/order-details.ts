@@ -42,11 +42,6 @@ export type TOrderDetailsActions =
     | IResetOrderAction
     | IResetOrderErrorAction;
 
-// export const geOrderDetailsFailedAction = (): IGeOrderDetailsFailedAction => ({
-//     type: RESET_ORDER
-// });
-
-
 export function createOrder({ bun, ingredients }: TOrderRequestType) {
     return function (dispatch: AppDispatch) {
         const ingredientsID = [

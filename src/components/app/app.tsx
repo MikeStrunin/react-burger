@@ -12,11 +12,13 @@ import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { Profile } from "../../pages/profile/profile";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route"
 import { Modal } from "../modal/modal";
-import { checkUserAuth } from "../../services/actions/user.js";
+import { checkUserAuth } from "../../services/actions/user";
 import styles from './app.module.css'
 import { ProfileDetails } from "../profile-details/profile-details";
 import { Orders } from "../orders/orders";
 import { useDispatch, useSelector } from "../../services/hooks";
+import { Feed } from "../../pages/feed/feed";
+import { OrderInfo } from "../order-info/order-info";
 
 const App = (): React.JSX.Element => {
   const dispatch = useDispatch();
@@ -53,6 +55,8 @@ const App = (): React.JSX.Element => {
             <Routes location={background || location}>
               <Route path='/' element={<Home />} />
               <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
+              <Route path="/feed" element={<Feed />} />
+              <Route path="/feed/:number" element={<OrderInfo />} />
 
               <Route path="/login" element={<OnlyUnAuth component={<Login />} />} />
               <Route path="/register" element={<OnlyUnAuth component={<Register />} />} />
@@ -63,6 +67,7 @@ const App = (): React.JSX.Element => {
               <Route path="/profile" element={<OnlyAuth component={<Profile />} />}>
                 <Route path="/profile/" element={<OnlyAuth component={<ProfileDetails />} />} />
                 <Route path="/profile/orders" element={<OnlyAuth component={<Orders />} />} />
+                <Route path="/profile/orders/:number" element={<OnlyAuth component={<OrderInfo />} />} />
               </Route>
 
               <Route path="*" element={<NotFound404 />} />
@@ -77,6 +82,18 @@ const App = (): React.JSX.Element => {
                     </Modal>
                   }
                 />
+                <Route path="/feed/:number"
+                  element={
+                    <Modal title="" onClose={handleModalClose}>
+                      <OrderInfo />
+                    </Modal>
+                  } />
+                <Route path="/profile/orders/:number"
+                  element={
+                    <Modal title="" onClose={handleModalClose}>
+                      <OrderInfo />
+                    </Modal>
+                  } />
               </Routes>
             )}
           </>

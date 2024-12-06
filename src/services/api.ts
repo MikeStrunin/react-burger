@@ -1,6 +1,7 @@
-import { TAuthUserResponse, TCreateOrderResponse, TIngredientsResponse, TLogoutResponse, TRegisterResponse, TResetPasswordResponse, TTokenData, TUserData, TUserLoginData, TUserPasswordResetData, TUserPasswordResetResetData, TUserRegisterData } from "../utils/types";
+import { TAuthUserResponse, TCreateOrderResponse, TIngredientsResponse, TLogoutResponse, TOrder, TRegisterResponse, TResetPasswordResponse, TTokenData, TUserData, TUserLoginData, TUserPasswordResetData, TUserPasswordResetResetData, TUserRegisterData } from "../utils/types";
 
 const BURGER_API_URL = "https://norma.nomoreparties.space/api"
+export const WSS_BASE_URL = "wss://norma.nomoreparties.space/orders";
 
 const checkReponse = <T>(res: Response): Promise<T> => {
     return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
@@ -66,6 +67,8 @@ export const createOrderRequest = (ingredientsID: Array<string>) => {
             }),
         });
 }
+
+export const getOrderByNumber = (number: string) => fetchNoRefresh<TOrder>("/orders/" + number);
 
 export const passwordReset = ({ email }: TUserPasswordResetData) => { // non-store request
     return fetchNoRefresh<TResetPasswordResponse>("/password-reset",

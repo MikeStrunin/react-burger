@@ -104,3 +104,25 @@ export type TAuthUserResponse = {
     },
 }
 
+export enum OrderStatusType {
+    CREATED = "created",
+    PENDING = "pending",
+    DONE = "done",
+}
+export type TOrderFeedItem = {
+    readonly ingredients: Array<string>;
+    readonly _id: string;
+    readonly name: string;
+    readonly status: OrderStatusType;
+    readonly number: number;
+    readonly createdAt: string;
+    readonly updatedAt: string;
+}
+
+
+export type TOrder = {
+    readonly success: boolean;
+    readonly orders: Array<TOrderFeedItem>;
+    readonly total: number;
+    readonly totalToday: number;
+}
