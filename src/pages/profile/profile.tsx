@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
 import { NavLink, Outlet } from 'react-router-dom';
 import styles from './profile.module.css';
 import { logout } from '../../services/actions/user';
@@ -28,7 +28,7 @@ export const Profile = (): React.JSX.Element => {
                         История заказов
                     </NavLink>
                     <NavLink
-                        to="#" // @ts-ignore.
+                        to="#"
                         onClick={() => dispatch(logout())}
                         className={`text text_type_main-medium text_color_inactive`}
                     >

@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
 import { useNavigate } from 'react-router-dom';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from "../../../../services/hooks";
 import styles from './ingredients-price.module.css'
 import { createOrder } from "../../../../services/actions/order-details";
 import { TIngredientItemType } from "../../../../utils/types";
 
 
 export const IngredientsPrice = (): React.JSX.Element => {
-    const dispatch = useDispatch();// @ts-ignore.
-    const { bun, ingredients } = useSelector((store) => store.burgerConstructor);// @ts-ignore.
+    const dispatch = useDispatch();
+    const { bun, ingredients } = useSelector((store) => store.burgerConstructor);
     const user = useSelector((store) => store.user.user);
     const navigate = useNavigate();
 
@@ -22,8 +22,10 @@ export const IngredientsPrice = (): React.JSX.Element => {
         }
     }, [bun, ingredients])
 
-    const onCreateOrderClick = () => {// @ts-ignore.
-        user ? dispatch(createOrder({ bun, ingredients })) : navigate('/login');
+    const onCreateOrderClick = () => {
+        (user && bun && ingredients)
+            ? dispatch(createOrder({ bun, ingredients }))
+            : navigate('/login');
     }
 
     return (

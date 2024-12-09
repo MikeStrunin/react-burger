@@ -1,7 +1,7 @@
 import React, { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './login.module.css';
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
 import { Button, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { login } from '../../services/actions/user';
 import { useForm } from '../../utils/useForm';
@@ -25,7 +25,7 @@ export const Login = (): React.JSX.Element => {
     }
 
     const formSubmit = (e: FormEvent) => {
-        e.preventDefault();// @ts-ignore.
+        e.preventDefault();
         dispatch(login(formData));
     };
 

@@ -1,16 +1,21 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    width: 600px;
+.caption {
+    width: 100%;
+    text-align: start;
 }
 
-.conteinerLeftText {
+.section {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.column {
+    flex-basis: 50%;
     text-align: left;
 }
 
 .containerScroll {
     overflow-y: auto;
-    max-height: 70vh;
+    max-height: 80vh;
 }
 
 .link {

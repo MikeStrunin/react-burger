@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../../../services/hooks";
 import { useDrop, useDrag } from "react-dnd";
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { deleteItem, moveItem } from "../../../../services/actions/burger-constructor";
@@ -49,7 +49,7 @@ export const ConstructorIngredient = ({ item, id, index }: TConstructorItem): Re
                 return
             }
             // Time to actually perform the action
-            dispatch(moveItem(dragIndex, hoverIndex));
+            dispatch(moveItem(Number(dragIndex), Number(hoverIndex)));
             // Note: we're mutating the monitor item here!
             // Generally it's better to avoid mutations,
             // but it's good here for the sake of performance
@@ -77,7 +77,7 @@ export const ConstructorIngredient = ({ item, id, index }: TConstructorItem): Re
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
-                handleClose={() => dispatch(// @ts-ignore.
+                handleClose={() => dispatch(
                     deleteItem(item))}
             />
         </li>
