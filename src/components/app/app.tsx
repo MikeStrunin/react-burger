@@ -27,11 +27,6 @@ const App = (): React.JSX.Element => {
   const navigate = useNavigate();
   const background = location.state && location.state.background;
 
-  const handleModalClose = () => {
-    // Возвращаемся к предыдущему пути при закрытии модалки
-    navigate(-1);
-  };
-
   useEffect(() => {
     dispatch(getIngredients());
   }, [dispatch]);
@@ -77,20 +72,20 @@ const App = (): React.JSX.Element => {
               <Routes>
                 <Route path='/ingredients/:ingredientId'
                   element={
-                    <Modal onClose={handleModalClose}>
+                    <Modal onClose={() => navigate("/")}>
                       <IngredientDetails />
                     </Modal>
                   }
                 />
                 <Route path="/feed/:number"
                   element={
-                    <Modal title="" onClose={handleModalClose}>
+                    <Modal title="" onClose={() => navigate("/feed")}>
                       <OrderInfo />
                     </Modal>
                   } />
                 <Route path="/profile/orders/:number"
                   element={
-                    <Modal title="" onClose={handleModalClose}>
+                    <Modal title="" onClose={() => navigate("/profile/orders")}>
                       <OrderInfo />
                     </Modal>
                   } />
