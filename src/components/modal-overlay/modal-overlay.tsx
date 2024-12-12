@@ -6,6 +6,6 @@ type TModaOverlaylData = {
 
 export const ModalOverlay = ({ onClose }: TModaOverlaylData): React.JSX.Element => {
     return (
-        <div className={styles.overlay} onClick={onClose}></div>
+        <div className={styles.overlay} onClick={onClose} data-testid="modalOverlay"></div>
     )
 }

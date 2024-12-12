@@ -35,6 +35,7 @@ export const IngredientsPrice = (): React.JSX.Element => {
             <Button htmlType="button" type="primary" size="large"
                 onClick={onCreateOrderClick}
                 disabled={!bun}
+                data-test="submitOrderButton"
             >
                 Оформить заказ
             </Button>

@@ -9,6 +9,7 @@
 			"DOM.Iterable",
 			"ESNext"
 		] /* Specify library files to be included in the compilation. */,
+		"types": ["cypress", "node"],
 		"jsx": "react-jsx" /* Specify JSX code generation: 'preserve', 'react-native', 'react' or 'react-jsx'. */,
 		"isolatedModules": true /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */,
 		"esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,

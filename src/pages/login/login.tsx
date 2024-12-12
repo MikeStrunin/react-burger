@@ -46,6 +46,7 @@ export const Login = (): React.JSX.Element => {
                     errorText={'Ошибка'}
                     size={'default'}
                     extraClass="mt-6"
+                    data-testid="email_input"
                 />
                 <Input
                     type={isHideMode ? 'password' : 'text'}
@@ -60,6 +61,7 @@ export const Login = (): React.JSX.Element => {
                     errorText={'Ошибка'}
                     size={'default'}
                     extraClass="mt-6"
+                    data-testid="password_input"
                 />
                 <div className={`mt-6 mb-20`}>
                     <Button htmlType="submit" type="primary" size="large">
