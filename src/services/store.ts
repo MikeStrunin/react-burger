@@ -10,12 +10,12 @@ import {
 
 import { socketMiddleware } from './middleware/socket-middleware';
 import { wsConnect, wsDisconnect } from './feed/actions';
-import { FeedActions } from './feed/feed';
 
 import { rootReducer } from './reducers';
 import { thunk } from 'redux-thunk';
+import { TOrder } from '../utils/types';
 
-const feedMiddleware = socketMiddleware<FeedActions, unknown>({
+const feedMiddleware = socketMiddleware<TOrder, unknown>({
     connect: wsConnect,
     disconnect: wsDisconnect,
     onConnecting: wsConnecting,

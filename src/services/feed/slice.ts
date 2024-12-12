@@ -1,10 +1,11 @@
-import { FeedData, FeedActionType, FeedActions, WebsocketStatus } from "./feed";
+import { TOrder } from "../../utils/types";
+import { WebsocketStatus } from "./feed";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type FeedStore = {
     status: WebsocketStatus;
     connectionError: string | null;
-    orders: FeedData;
+    orders: TOrder;
 }
 
 const initialState: FeedStore = {
@@ -16,18 +17,6 @@ const initialState: FeedStore = {
         totalToday: 0
     },
     connectionError: null
-}
-
-const feedUpdate = (prevorders: FeedData, actions: FeedActions): FeedData => {
-    let orders = prevorders;
-    actions.forEach((action) => {
-        switch (action.type) {
-            case FeedActionType.DATA:
-                orders = action.data;
-                break;
-        }
-    });
-    return orders;
 }
 
 export const feedSlice = createSlice({
@@ -46,7 +35,7 @@ export const feedSlice = createSlice({
         wsError: (state, action: PayloadAction<string>) => {
             state.connectionError = action.payload;
         },
-        wsMessage: (state, action: PayloadAction<FeedData>) => {
+        wsMessage: (state, action: PayloadAction<TOrder>) => {
             state.orders = action.payload;
         }
     },

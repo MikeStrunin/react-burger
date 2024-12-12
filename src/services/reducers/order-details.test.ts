@@ -33,7 +33,7 @@ describe('Redux reducer of order-details', () => {
     })
 
 
-    it('should return state with successed request fields', () => {
+    it('should return state with error text', () => {
         const errorText = "testErrorText";
         expect(orderReducer(undefined, { type: CREATE_ORDER_ERROR, errorText })).toEqual(
             { ...initialState, orderError: errorText }
