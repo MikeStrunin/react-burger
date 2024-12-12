@@ -8,7 +8,7 @@ export type FeedStore = {
     orders: TOrder;
 }
 
-const initialState: FeedStore = {
+export const initialState: FeedStore = {
     status: WebsocketStatus.OFFLINE,
     orders: {
         success: false,
