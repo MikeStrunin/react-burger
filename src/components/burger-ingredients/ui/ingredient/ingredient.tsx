@@ -41,6 +41,7 @@ export const Ingredient = ({ item }: TIngredient): React.JSX.Element => {
         >
             <div ref={drag}
                 className={`${styles.container} ${isDragging && styles.onDrag}`}
+                data-test="ingredientItem"
             >
                 <div className={`${styles.infoContainer} ml-4 mr-4`}>
                     <img className={styles.image} src={item.image} alt={`Ингредиент ${item.name?.length > 0 ? item.name : ""}`} />

@@ -25,9 +25,9 @@ export const IngredientsConstructor = (): React.JSX.Element => {
     }))
 
     return (
-        <div ref={drop} className={`${styles.ingredientsContainer} ml-10`}>
+        <div ref={drop} className={`${styles.ingredientsContainer} ml-10`} data-test="constructorContainer">
             {bun ?
-                (<div className={`${styles.bun} mr-10 ml-8`}>
+                (<div className={`${styles.bun} mr-10 ml-8`} data-test="constructorBunTop">
                     <ConstructorElement
                         type="top"
                         key={bun.key}
@@ -43,7 +43,7 @@ export const IngredientsConstructor = (): React.JSX.Element => {
                 </div>)
             }
             {ingredients && ingredients.length > 0 ?
-                (<ul className={`${styles.constructorContainer} pr-5`}>
+                (<ul className={`${styles.constructorContainer} pr-5`} data-test="constructorInnerItems">
                     {
                         ingredients.map((item, index) => (
                             <ConstructorIngredient item={item} id={item.key as string} index={index.toString()} key={item.key} />
@@ -55,7 +55,7 @@ export const IngredientsConstructor = (): React.JSX.Element => {
                 </div>)
             }
             {bun ?
-                (<div className={`${styles.bun} mr-10 ml-8`}>
+                (<div className={`${styles.bun} mr-10 ml-8`} data-test="constructorBunBottom">
                     <ConstructorElement
                         key={bun.key}
                         type="bottom"

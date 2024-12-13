@@ -5,7 +5,7 @@ import {
     RESET_ORDER,
     RESET_ORDER_ERROR,
     TOrderDetailsActions
-} from '../actions/order-details.js';
+} from '../actions/order-details';
 
 
 type TCardInitialState = {
@@ -14,7 +14,7 @@ type TCardInitialState = {
     orderError: null | boolean | string,
 }
 
-const initialState: TCardInitialState = {
+export const initialState: TCardInitialState = {
     order: null,
     orderRequest: false,
     orderError: null,

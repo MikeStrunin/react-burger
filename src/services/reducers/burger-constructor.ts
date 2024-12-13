@@ -6,7 +6,7 @@ type TBurgerItemsState = {
     ingredients: Array<TIngredientItemType>;
 }
 
-const initialState: TBurgerItemsState = {
+export const initialState: TBurgerItemsState = {
     bun: null,
     ingredients: [],
 };

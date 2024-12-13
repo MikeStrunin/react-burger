@@ -1,3 +1,6 @@
-# React + Vite
+# Test project 'React Space Burgers', YandexPracticum.
+Developed with Vite, React, React DnD, Redux, WebSockets. 
+Tested with Jest, Cypress
 
-Проект "Космическая бургерная" - практикум Яндекс - React Developer.
+
+My version is available on https://mikestrunin.github.io/react-burger/

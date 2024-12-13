@@ -34,11 +34,11 @@ export const Modal = ({ children, title, onClose }: TModalData): React.JSX.Eleme
         ReactDOM.createPortal(
             (
                 <>
-                    <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+                    <div className={styles.modal} onClick={(e) => e.stopPropagation()} data-testid="modalContainer">
                         {title &&
                             (<p className="pt-10 pl-10 pr-10 text text_type_main-large">{title}</p>)
                         }
-                        <button type='button' className={styles.button} onClick={onClose}>
+                        <button type='button' className={styles.button} onClick={onClose} data-testid="modalCloseButton">
                             <CloseIcon onClick={onClose} type="primary" />
                         </button>
                         {children}

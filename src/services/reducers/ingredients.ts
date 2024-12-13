@@ -13,7 +13,7 @@ type TIngredientsState = {
     ingredientsMap: Map<string, TIngredientItemType>;
 }
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
     items: [],
     itemsRequest: false,
     itemsError: false,

@@ -1,0 +1,9 @@
+{
+    "success": true,
+    "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3MWFiMDY4ZDgyOWJlMDAxYzc3ODhkNSIsImlhdCI6MTczNDAwNTI5MiwiZXhwIjoxNzM0MDA2NDkyfQ.V3KXgPRc1hFA8XcIK8XTNhs6Yz7S0h7U4FAjNMsefQo",
+    "refreshToken": "721d7f89938247ed7c79a4360e3a4236d51b517ad5e3c45311eac77ee1ccf6c3f72710cfe1d019f3",
+    "user": {
+        "email": "mihastrunin@yandex.ru",
+        "name": "mike5011"
+    }
+}
